@@ -1,0 +1,252 @@
+body, html{
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 16px;
+}
+
+a, a:visited, a:active, a:hover {
+    text-decoration: none !important;
+}
+
+.header a{
+    color: white !important;
+}
+
+.header{
+    background-color: #50be14;
+    height: 100px;
+}
+
+.header-block{
+    height: 100px;
+}
+
+.main-content{
+    color: #1b1e21 !important;
+    margin-top: 50px;
+}
+
+.logo{
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.login-input{
+    margin-bottom: 50px;
+    border-radius: 15px;
+    border: 1px solid transparent;
+    outline: none;
+    width: 300px;
+    height: 40px;
+}
+
+.login-content{
+    padding-top: 50px;
+    margin-top: 160px;
+    background-color: #50be14;
+    border-radius: 15px;
+}
+
+.form{
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.login-button{
+    margin-left: 0px;
+}
+
+.login-form-label{
+    color: white !important;
+}
+
+.errors{
+    color: red;
+    font-size: 20px;
+}
+
+.prescription-plug{
+    height: 30px;
+}
+
+.buy-button, .buy-button-medicine-page{
+    margin-top: 20px;
+    border: none;
+    outline: none;
+    background-color: #50be14;
+    color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 80%;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.buy-button-medicine-page-disabled{
+    margin-top: 20px;
+    border: none;
+    outline: none;
+    background-color: gray;
+    color: black !important;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 80%;
+    border-radius: 15px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.price-text{
+    color: #50be14;
+}
+
+.price{
+    color: #50be14;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.medicine-elem{
+    border: 1px solid rgba(0, 0 , 0, 0.2);
+    padding-bottom: 20px;
+    border-collapse: collapse;
+}
+
+.recipe{
+    margin-top: 10px;
+    width: fit-content;
+    padding: 5px 10px 5px 10px;
+    border-radius: 10px;
+    background-color: #b8daff !important;
+    margin-bottom: 20px;
+}
+
+.admin-button{
+    border-radius: 10px;
+    text-align: center;
+    padding: 10px 15px 10px 15px;
+    background-color: #50be14 !important;
+    color: white !important;
+
+}
+
+.user-list{
+    text-align: center;
+    height: 400px;
+    overflow-y: scroll;
+
+}
+
+.user-item, .medicine-choice, .admin-medicine-item{
+    width: fit-content;
+    color: white !important;
+    background-color: #50be14 !important;
+    padding: 10px 10px 10px 10px;
+    border-radius: 10px;
+}
+
+.medicine-choice{
+    cursor: pointer;
+}
+
+input{
+    outline: none;
+    border: none;
+    border-radius: 10px;
+}
+
+input[type="text"]{
+    padding-left: 15px;
+    height: 40px;
+}
+
+.add-user-form, .create-medicine-form, .update-medicine-form, .all-medicines-list{
+    color: white !important;
+    width: fit-content;
+    background-color: #50be14 !important;
+    padding: 20px 20px 20px 20px;
+    border-radius: 10px;
+}
+
+#create-medicine, #update-medicine{
+    display: none;
+}
+
+textarea{
+    width: 300px;
+    height: 150px;
+}
+
+
+.register-href, .register-href:hover, .register-href:visited, .register-href:active{
+    text-decoration: underline blue !important;
+    color: blue !important;
+}
+
+.medicine-name{
+    color: black !important;
+}
+
+.medicine-page-name{
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.medicine-page-text{
+    font-size: 16px;
+}
+
+input[type="number"]{
+    width: 40px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.medicine-page-consistency{
+    font-size: 20px;
+}
+
+.prescription-blog{
+    height: 380px;
+    overflow-y: scroll;
+}
+
+.order-item{
+    color: white !important;
+    background-color: #50be14 !important;
+    padding: 20px 10px 20px 10px;
+    border-radius: 10px;
+}
+
+.delete-order-item-button{
+    padding: 10px 15px 10px 15px;
+    border-radius: 7px;
+    background-color: red;
+    color: pink;
+}
+.delete-order-item-button:hover{
+    text-decoration: none;
+    color: pink;
+}
+
+
+.pagination-elems{
+    padding: 8px;
+    border: 3px solid #50be14;
+    color: #50be14 !important;
+    margin-right: 10px;
+}
+
+.pagination-elems:hover, .active-tab{
+    background-color: #50be14 !important;
+    color: white !important;
+}
+
+.active-tab{
+    pointer-events: none;
+    cursor: default;
+}
+
+.pagination-tab{
+    margin-top: 50px !important;
+}
