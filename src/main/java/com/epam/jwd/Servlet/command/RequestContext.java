@@ -14,6 +14,6 @@ public interface RequestContext {
      HttpSession getSession();
      String getQueryString();
      Enumeration<String> getParameterNames();
-
+     String[] getParameterValues(String var1);
     Part getPart(String file) throws IOException, ServletException;
 }

@@ -21,12 +21,23 @@
 <p:paginationContent onPage="3" items="${allItems}"/>
 <div class="container-fluid main-content">
     <div class="row">
-        <div class="col-2 text-center">
-            <div>
-                <a href="/Controller?action=category_page&category=антибиотики"><fmt:message key="medicine.antibiotics"/> </a><br>
-                <a href="/Controller?action=category_page&category=витамины"><fmt:message key="medicine.vitamins"/> </a><br>
-                <a href="/Controller?action=category_page&category=гормональные"><fmt:message key="medicine.hormonal"/> </a><br>
-            </div>
+        <div class="col-2 text-left">
+            <form action="/Controller?action=filter" method="get" id="filterForm">
+                <label class="filter-block-label"><fmt:message key="admin.medicine.category"/></label>
+                <div class="filter-block">
+                    <input type="checkbox" name="category" value="антибиотики"> <fmt:message key="medicine.antibiotics"/><br><br>
+                    <input type="checkbox" name="category" value="витамины"> <fmt:message key="medicine.vitamins"/><br><br>
+                    <input type="checkbox" name="category" value="гормональные"> <fmt:message key="medicine.hormonal"/>
+                </div>
+
+                <label class="filter-block-label"><fmt:message key="admin.medicine.consistency"/> </label>
+                <div class="filter-block">
+                    <input type="checkbox" name="consistency" value="мазь"> <fmt:message key="medicine.ointment"/><br><br>
+                    <input type="checkbox" name="consistency" value="таблетки"> <fmt:message key="medicine.pills"/><br><br>
+                    <input type="checkbox" name="consistency" value="капли"> <fmt:message key="medicine.drops"/>
+                </div>
+                <input type="submit" value="Фильтр" class="filter-button">
+            </form>
         </div>
         <div class="col-7">
             <c:forEach var="medicines" items="${paginatedItems}">
@@ -45,7 +56,8 @@
                         </c:if>
                         <c:out value="${medicines.name}"></c:out><br>
                         <c:out value="${medicines.dose}"></c:out> мг<br>
-                        <c:out value="${medicines.category}"></c:out>
+                        <c:out value="${medicines.category}"></c:out><br>
+                        <c:out value="${medicines.consistency}"></c:out>
                     </div>
                     <div class="col-3 pt-3">
                         <span class="price-text"><fmt:message key="index.price"/> </span> <span class="price">

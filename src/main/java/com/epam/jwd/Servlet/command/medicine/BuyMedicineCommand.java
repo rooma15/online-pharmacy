@@ -30,28 +30,6 @@ public enum BuyMedicineCommand implements Command {
         return false;
     }
 
-    ResponseContext context = new ResponseContext() {
-        @Override
-        public String getPage() {
-            return "index.jsp";
-        }
-
-        @Override
-        public boolean isRedirect() {
-            return false;
-        }
-
-        @Override
-        public boolean isAjax() {
-            return false;
-        }
-
-        @Override
-        public String getErrorCode() {
-            return null;
-        }
-    };
-
     @Override
     public ResponseContext execute(RequestContext req) {
         ResourceBundle locale = Util.getLocaleBundle((String)req.getSession().getAttribute("locale"));

@@ -23,7 +23,7 @@ public class CartDAO extends AbstractDAO<OrderItem> {
 
     @Override
     public List<Optional<OrderItem>> findAll() {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override

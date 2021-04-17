@@ -6,6 +6,7 @@ import com.epam.jwd.Servlet.command.ResponseContext;
 import com.epam.jwd.Servlet.command.page.ShowMainPageCommand;
 
 import javax.servlet.http.HttpSession;
+import java.util.Locale;
 
 public enum ChangeLocaleCommand implements Command {
 

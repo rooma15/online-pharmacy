@@ -27,7 +27,7 @@ public enum DeleteMedicineCommand implements Command {
 
         @Override
         public boolean isRedirect() {
-            return false;
+            return true;
         }
 
         @Override

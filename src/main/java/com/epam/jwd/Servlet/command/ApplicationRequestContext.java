@@ -9,6 +9,11 @@ import java.util.Enumeration;
 
 public class ApplicationRequestContext implements RequestContext{
 
+    @Override
+    public String[] getParameterValues(String var1) {
+        return request.getParameterValues(var1);
+    }
+
     private final HttpServletRequest request;
 
     private ApplicationRequestContext(HttpServletRequest request){

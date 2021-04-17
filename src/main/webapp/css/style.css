@@ -250,3 +250,25 @@ input[type="number"]{
 .pagination-tab{
     margin-top: 50px !important;
 }
+
+.filter-block{
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    margin-bottom: 40px;
+    padding: 15px 15px 15px 35px;
+    width: 200px;
+    margin-left: 100px;
+}
+
+.filter-button{
+    margin-left: 100px;
+    padding: 10px 30px 10px 30px;
+    width: 200px;
+    background-color: #50be14;
+    color: white !important;
+}
+
+.filter-block-label{
+    font-weight: bold;
+    font-size: 20px;
+    margin-left: 100px;
+}

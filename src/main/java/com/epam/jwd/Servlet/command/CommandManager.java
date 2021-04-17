@@ -35,8 +35,8 @@ public enum CommandManager {
     DOCTOR_EDIT_PRESCRIPTIONS(EditPrescriptionsCommand.INSTANCE),
     OPEN_CART(OpenCartCommand.INSTANCE),
     DELETE_ORDER_ITEM(DeleteOrderItemCommand.INSTANCE),
-    CATEGORY_PAGE(ShowCategoryPageCommand.INSTANCE),
-    CHANGE_LOCALE(ChangeLocaleCommand.INSTANCE);
+    CHANGE_LOCALE(ChangeLocaleCommand.INSTANCE),
+    FILTER(FilterCommand.INSTANCE);
 
      private final Command command;
 
