@@ -12,6 +12,7 @@ public class MedicineFilterService implements FilterService<MedicineCriteria, Me
         List<MedicineDto> sortedMedicines = items;
         List<String> categories = criteria.getCategories();
         List<String> consistencies = criteria.getConsistencies();
+        Boolean isRecipe = criteria.isRecipe();
         if(categories != null){
             sortedMedicines = sortedMedicines
                     .stream()
@@ -22,6 +23,12 @@ public class MedicineFilterService implements FilterService<MedicineCriteria, Me
             sortedMedicines = sortedMedicines
                     .stream()
                     .filter(medicine -> consistencies.contains(medicine.getConsistency().toLowerCase()))
+                    .collect(Collectors.toList());
+        }
+        if(isRecipe != null){
+            sortedMedicines = sortedMedicines
+                    .stream()
+                    .filter(medicine -> medicine.getPrescriptionDrug() == isRecipe)
                     .collect(Collectors.toList());
         }
         return sortedMedicines;

@@ -9,8 +9,7 @@ public class AbstractCriteria {
         this.name = name;
     }
 
-    public AbstractCriteria()
-    {
+    public AbstractCriteria() {
         id = 1;
         name = "default";
     }

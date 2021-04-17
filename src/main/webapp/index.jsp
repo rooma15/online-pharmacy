@@ -34,7 +34,12 @@
                 <div class="filter-block">
                     <input type="checkbox" name="consistency" value="мазь"> <fmt:message key="medicine.ointment"/><br><br>
                     <input type="checkbox" name="consistency" value="таблетки"> <fmt:message key="medicine.pills"/><br><br>
-                    <input type="checkbox" name="consistency" value="капли"> <fmt:message key="medicine.drops"/>
+                    <input type="checkbox" name="consistency" value="капли"> <fmt:message key="medicine.drops"/><br><br>
+                </div>
+                <label class="filter-block-label"><fmt:message key="medicine.recipe"/> </label>
+                <div class="filter-block">
+                    <input type="radio" name="isRecipe" value="true"> <fmt:message key="medicine.recipe"/><br><br>
+                    <input type="radio" name="isRecipe" value="false"> <fmt:message key="medicine.noRecipe"/>
                 </div>
                 <input type="submit" value="Фильтр" class="filter-button">
             </form>

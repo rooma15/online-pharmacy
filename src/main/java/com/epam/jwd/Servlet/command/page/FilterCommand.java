@@ -5,7 +5,6 @@ import com.epam.jwd.Servlet.command.RequestContext;
 import com.epam.jwd.Servlet.command.ResponseContext;
 import com.epam.jwd.Servlet.criteria.MedicineCriteria;
 import com.epam.jwd.Servlet.model.MedicineDto;
-import com.epam.jwd.Servlet.service.FilterService;
 import com.epam.jwd.Servlet.service.impl.MedicineFilterService;
 import com.epam.jwd.Servlet.service.impl.MedicineService;
 
@@ -40,6 +39,12 @@ public enum FilterCommand implements Command {
         if(!"".equals(consistencyParam) && consistencyParam != null){
             consistencies = Arrays.asList(consistencyParam.split("_").clone());
             medicineCriteriaBuilder.consistencies(consistencies);
+        }
+
+        String isRecipe = req.getParameter("isRecipe");
+        if(isRecipe != null && !isRecipe.equals("")){
+            Boolean recipe = Boolean.parseBoolean(isRecipe);
+            medicineCriteriaBuilder.recipe(recipe);
         }
 
         MedicineCriteria medicineCriteria = medicineCriteriaBuilder.build();
