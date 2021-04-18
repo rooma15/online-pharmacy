@@ -83,11 +83,7 @@ public abstract class AbstractDAO<T extends Entity> {
             try (PreparedStatement statement = dbConnection.prepareStatement(st)) {
                 statement.setInt(1, id);
                 int rows = statement.executeUpdate();
-                if(rows > 0){
-                    return true;
-                }else {
-                    return false;
-                }
+                return rows > 0;
             } catch (SQLException e) {
                 Util.lOGGER.error(e.getStackTrace());
             }

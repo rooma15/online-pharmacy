@@ -154,6 +154,16 @@ public class PrescriptionService implements CommonService<PrescriptionDto> {
     }
 
     /**
+     * inds prescriptions of concrete medicine
+     * @param medicineId
+     * @return {@link List} of prescriptions of this medicine
+     */
+    public List<Prescription> findByMedicineId(int medicineId){
+        String st = "select * from pharmacy.Prescriptions where medicine_id=?";
+        return prescriptionDAO.findByCriteria(st, "i", medicineId);
+    }
+
+    /**
      * inds prescriptions of concrete user
      * @param userId id of user
      * @return {@link List} of prescriptions of this user

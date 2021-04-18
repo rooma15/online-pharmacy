@@ -32,7 +32,13 @@ public enum BuyMedicineCommand implements Command {
 
     @Override
     public ResponseContext execute(RequestContext req) {
-        ResourceBundle locale = Util.getLocaleBundle((String)req.getSession().getAttribute("locale"));
+        String loc = (String)req.getSession().getAttribute("locale");
+        ResourceBundle locale;
+        if(loc != null){
+            locale = Util.getLocaleBundle((String)req.getSession().getAttribute("locale"));
+        }else {
+            locale = Util.getLocaleBundle("ru_RU");
+        }
         HttpSession session = req.getSession();
         Map<String, String> answer = new HashMap<String, String>();
         int id;

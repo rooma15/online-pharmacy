@@ -121,10 +121,23 @@ public class CartService implements CommonService<OrderItemDto> {
      */
     public List<OrderItemDto> findByUserId(int userId) {
         String st = "select * from pharmacy.Cart where user_id=?";
-        return cartDAO.findByCriteria(st, "i", userId)
+        List<OrderItem> orderItems = cartDAO.findByCriteria(st, "i", userId);
+        MedicineDAO medicineDAO = new MedicineDAO();
+        return orderItems
                 .stream()
+                .filter(orderItem -> medicineDAO.findById(orderItem.getMedicineId()).isPresent())
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * finds all items of concrete medicine id
+     * @param medicine_id medicine id of orders
+     * @return {@link List} list of {@link OrderItem} items
+     */
+    public List<OrderItem> findByMedicineId(int medicine_id) {
+        String st = "select * from pharmacy.Cart where medicine_id=?";
+        return cartDAO.findByCriteria(st, "i", medicine_id);
     }
 
     /**

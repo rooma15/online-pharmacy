@@ -272,3 +272,10 @@ input[type="number"]{
     font-size: 20px;
     margin-left: 100px;
 }
+
+
+.no-goods{
+    position: absolute;
+    margin-left: 900px;
+    top: 300px;
+}

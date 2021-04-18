@@ -81,7 +81,7 @@
 </div>
 
 <c:if test="${empty allItems}">
-    <h1 class="text-center"><fmt:message key="index.noGoods"/> </h1>
+    <h1 class="text-center no-goods"><fmt:message key="index.noGoods"/> </h1>
 </c:if>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"

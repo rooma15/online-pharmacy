@@ -3,8 +3,14 @@ package com.epam.jwd.Servlet.command.medicine;
 import com.epam.jwd.Servlet.command.Command;
 import com.epam.jwd.Servlet.command.RequestContext;
 import com.epam.jwd.Servlet.command.ResponseContext;
+import com.epam.jwd.Servlet.model.OrderItem;
+import com.epam.jwd.Servlet.model.Prescription;
+import com.epam.jwd.Servlet.service.impl.CartService;
 import com.epam.jwd.Servlet.service.impl.MedicineService;
+import com.epam.jwd.Servlet.service.impl.PrescriptionService;
 import com.epam.jwd.Util;
+
+import java.util.List;
 
 public enum DeleteMedicineCommand implements Command {
     INSTANCE;
@@ -64,9 +70,16 @@ public enum DeleteMedicineCommand implements Command {
         int id;
         try {
             id = Integer.parseInt(req.getParameter("id"));
+            System.out.println(id);
         }catch (NumberFormatException e){
             return ERROR_REQUEST_CONTEXT;
         }
+        PrescriptionService prescriptionService = new PrescriptionService();
+        List<Prescription> prescriptionList = prescriptionService.findByMedicineId(id);
+        prescriptionList.forEach(prescription -> prescriptionService.deleteById(prescription.getId()));
+        CartService cartService = new CartService(req);
+        List<OrderItem> orderItems = cartService.findByMedicineId(id);
+        orderItems.forEach(orderItem -> cartService.deleteById(orderItem.getId()));
         boolean status = service.deleteById(id);
         if(!status){
             return Util.NOT_FOUND_REQUEST_CONTEXT;
