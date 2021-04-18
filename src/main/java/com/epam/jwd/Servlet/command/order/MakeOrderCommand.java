@@ -8,8 +8,10 @@ import com.epam.jwd.Servlet.service.impl.CartService;
 import com.epam.jwd.Servlet.service.impl.OrderItemService;
 import com.epam.jwd.Servlet.service.impl.OrderService;
 import com.epam.jwd.Servlet.service.impl.UserService;
+import com.epam.jwd.Util;
 
 import javax.servlet.http.HttpSession;
+import javax.swing.event.MouseInputListener;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -52,6 +54,9 @@ public enum MakeOrderCommand implements Command {
         User user = userService.findByLogin(userDto.getLogin()).get();
         List<CartItemDto> cartItems = cartService.findByUserId(user.getId());
         double orderPrice = 0;
+        if(cartItems.isEmpty()){
+            return Util.ERROR_REQUEST_CONTEXT;
+        }
         for(CartItemDto cartItem : cartItems) {
             orderPrice += cartItem.getPrice();
         }
