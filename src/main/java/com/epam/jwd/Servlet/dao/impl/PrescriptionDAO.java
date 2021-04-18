@@ -55,24 +55,9 @@ public class PrescriptionDAO extends AbstractDAO<Prescription> {
 
     @Override
     public boolean create(Prescription prescription) {
-        try (Connection dbConnection = connectionPool.getConnection()) {
-            try (PreparedStatement statement = dbConnection.prepareStatement(CREATE_PRESCRIPTION)) {
-                statement.setInt(1, prescription.getUserId());
-                statement.setInt(2, prescription.getMedicineId());
-                statement.setBoolean(3, prescription.getAccepted());
-                int rows = statement.executeUpdate();
-                if(rows > 0) {
-                    return true;
-                } else {
-                    return false;
-                }
-            } catch (SQLException e) {
-                Util.lOGGER.error(e.getStackTrace());
-            }
-        } catch (InterruptedException | SQLException e) {
-            Util.lOGGER.error(e.getStackTrace());
-        }
-        return false;
+        return AbstractDAO.updateByCriteria(CREATE_PRESCRIPTION, "iib", prescription.getUserId(),
+                                            prescription.getMedicineId(),
+                                            prescription.getAccepted());
     }
 
 

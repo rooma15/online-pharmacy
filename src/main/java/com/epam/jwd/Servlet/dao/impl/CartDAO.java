@@ -52,49 +52,4 @@ public class CartDAO extends AbstractDAO<CartItem> {
                                             item.getPrice(),
                                             item.getUserId());
     }
-
-    /*public List<CartItem> findByCriteria(String st, String paramString, Object... params) {
-        List<CartItem> items = new ArrayList<>();
-        try (Connection dbConnection = DBConnectionPool.getInstance().getConnection()) {
-            try (PreparedStatement statement = dbConnection.prepareStatement(st)) {
-                for(int i = 0; i < paramString.length(); i++) {
-                    char type = paramString.charAt(i);
-                    switch (type) {
-                        case 'i':
-                            statement.setInt(i + 1, (int) params[i]);
-                            break;
-                        case 's':
-                            statement.setString(i + 1, (String) params[i]);
-                            break;
-                        case 'b':
-                            statement.setBoolean(i + 1, (boolean) params[i]);
-                            break;
-                        case 'd':
-                            statement.setDouble(i + 1, (double) params[i]);
-                            break;
-                    }
-                }
-                try (ResultSet result = statement.executeQuery()) {
-                    while(result.next()) {
-                        CartItem item = new CartItem(
-                                result.getInt(1),
-                                result.getInt(2),
-                                result.getInt(5),
-                                result.getInt(3),
-                                result.getDouble(4)
-                        );
-                        items.add(item);
-                    }
-                } catch (SQLException e) {
-                    Util.lOGGER.error(e.getStackTrace());
-                }
-            } catch (SQLException e) {
-                Util.lOGGER.error(e.getStackTrace());
-            }
-        } catch (InterruptedException | SQLException e) {
-            Util.lOGGER.error(e.getStackTrace());
-        }
-        return items;
-    }*/
-
 }
