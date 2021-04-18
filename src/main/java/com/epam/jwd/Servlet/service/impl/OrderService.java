@@ -60,9 +60,14 @@ public class OrderService implements CommonService<OrderDto> {
                 order.getOrderPrice());
     }
 
-    public int getLastOrderId(){
-        String st = "select * from pharmacy.Orders order by id desc limit 1";
-        List<Order> order =  AbstractDAO.<Order>findByCriteria(st, "", adder)
+
+    /**
+     * return if of last order of the user
+     * @return id of hte order
+     */
+    public int getLastOrderId(int id){
+        String st = "select * from pharmacy.Orders where user_id=? order by id desc limit 1";
+        List<Order> order =  AbstractDAO.<Order>findByCriteria(st, "i", adder, id)
                 .stream()
                 .filter(Optional::isPresent)
                 .map(Optional::get)

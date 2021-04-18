@@ -323,6 +323,11 @@ public class CartService implements CommonService<CartItemDto> {
         }
     }
 
+
+    /**
+     * clean user cart
+     * @return true if everything was successfull, false otherwise
+     */
     public boolean clearCart(){
         HttpSession session = req.getSession();
         String st = "delete from pharmacy.Cart where user_id=? and id>0";

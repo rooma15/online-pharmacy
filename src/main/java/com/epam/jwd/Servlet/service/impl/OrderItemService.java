@@ -13,6 +13,9 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * service for managing with order items
+ */
 public class OrderItemService implements CommonService<OrderItemDto> {
 
     private final OrderItemDAO orderItemDAO;
@@ -29,6 +32,10 @@ public class OrderItemService implements CommonService<OrderItemDto> {
         this.orderItemDAO = new OrderItemDAO();
     }
 
+    /**
+     * finds all order items in database
+     * @return {@link List} of {@link OrderItemDto}
+     */
     @Override
     public List<OrderItemDto> findAll() {
         return orderItemDAO.findAll()
@@ -39,6 +46,12 @@ public class OrderItemService implements CommonService<OrderItemDto> {
                 .collect(Collectors.toList());
     }
 
+
+    /**
+     * delete order item with concrete id from database
+     * @param id id of order item
+     * @return true if successful, false otherwise
+     */
     @Override
     public boolean deleteById(int id) {
         return orderItemDAO.deleteById(id);

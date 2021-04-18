@@ -67,7 +67,7 @@ public enum MakeOrderCommand implements Command {
                 new Timestamp(System.currentTimeMillis()),
                 orderPrice
         ));
-        int orderId = orderService.getLastOrderId();
+        int orderId = orderService.getLastOrderId(user.getId());
         orderId = orderId == 0 ? 1 : orderId;
         for(CartItemDto cartItem : cartItems) {
             orderItemService.create(new OrderItem(
