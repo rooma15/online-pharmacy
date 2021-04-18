@@ -3,7 +3,7 @@ package com.epam.jwd.Servlet.command.page;
 import com.epam.jwd.Servlet.command.Command;
 import com.epam.jwd.Servlet.command.RequestContext;
 import com.epam.jwd.Servlet.command.ResponseContext;
-import com.epam.jwd.Servlet.model.OrderItemDto;
+import com.epam.jwd.Servlet.model.CartItemDto;
 import com.epam.jwd.Servlet.model.UserDto;
 import com.epam.jwd.Servlet.service.impl.CartService;
 import com.epam.jwd.Servlet.service.impl.UserService;
@@ -47,13 +47,13 @@ public enum OpenCartCommand implements Command {
         HttpSession session = req.getSession();
         CartService cartService = new CartService(req);
         if(session.getAttribute("user") == null){
-            List<OrderItemDto> orderItems = cartService.getSessionCartItems();
+            List<CartItemDto> orderItems = cartService.getSessionCartItems();
             req.setAttribute("order_items", orderItems);
         }else {
             UserService userService = new UserService();
             UserDto user = (UserDto)session.getAttribute("user");
             int userId = userService.findByLogin(user.getLogin()).get().getId();
-            List<OrderItemDto> orderItems = cartService.findByUserId(userId);
+            List<CartItemDto> orderItems = cartService.findByUserId(userId);
             req.setAttribute("order_items", orderItems);
         }
         return SUCCESS_CONTEXT;

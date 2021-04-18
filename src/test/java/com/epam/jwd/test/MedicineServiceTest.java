@@ -47,7 +47,7 @@ public class MedicineServiceTest {
 
     @Test
     public void findByIdTest(){
-        assertEquals("солицин", service.findById(24).get().getName());
+        assertEquals("супракс", service.findById(41).get().getName());
     }
 
     @Test

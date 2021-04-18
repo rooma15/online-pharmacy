@@ -2,11 +2,10 @@ package com.epam.jwd.Servlet.dao.impl;
 
 import com.epam.jwd.ConnectionPool.Impl.DBConnectionPool;
 import com.epam.jwd.Servlet.dao.AbstractDAO;
-import com.epam.jwd.Servlet.model.OrderItem;
-import com.epam.jwd.Servlet.model.Prescription;
+import com.epam.jwd.Servlet.model.CartItem;
+import com.epam.jwd.Servlet.model.User;
 import com.epam.jwd.Util;
 
-import javax.persistence.criteria.Order;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,21 +13,31 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 
-public class CartDAO extends AbstractDAO<OrderItem> {
+public class CartDAO extends AbstractDAO<CartItem> {
 
     private String DELETE_BY_ID = "delete from pharmacy.Cart where id=?";
-    private String CREATE_ORDER_ITEM = "insert into pharmacy.Cart values(null, ?, ?, ?, ?)";
+    private String GET_CART_ITEM_BY_ID = "select * from pharmacy.Cart where id=?";
+    private String CREATE_CART_ITEM = "insert into pharmacy.Cart values(null, ?, ?, ?, ?)";
+
+    private final Function<ResultSet, Optional<CartItem>> adder = resultSet -> {
+        try {
+            return Optional.of(new CartItem(resultSet));
+        } catch (SQLException e) {
+            return Optional.empty();
+        }
+    };
 
     @Override
-    public List<Optional<OrderItem>> findAll() {
+    public List<Optional<CartItem>> findAll() {
         return new ArrayList<>();
     }
 
     @Override
-    public Optional<OrderItem> findById(int id) {
-        return Optional.empty();
+    public Optional<CartItem> findById(int id) {
+        return super.findById(id, GET_CART_ITEM_BY_ID, adder);
     }
 
     @Override
@@ -37,30 +46,15 @@ public class CartDAO extends AbstractDAO<OrderItem> {
     }
 
     @Override
-    public boolean create(OrderItem item) {
-        try (Connection dbConnection = connectionPool.getConnection()) {
-            try (PreparedStatement statement = dbConnection.prepareStatement(CREATE_ORDER_ITEM)) {
-                statement.setInt(1, item.getMedicineId());
-                statement.setInt(2, item.getAmount());
-                statement.setDouble(3, item.getPrice());
-                statement.setInt(4, item.getUserId());
-                int rows = statement.executeUpdate();
-                if(rows > 0) {
-                    return true;
-                } else {
-                    return false;
-                }
-            } catch (SQLException e) {
-                Util.lOGGER.error(e.getStackTrace());
-            }
-        } catch (InterruptedException | SQLException e) {
-            Util.lOGGER.error(e.getStackTrace());
-        }
-        return false;
+    public boolean create(CartItem item) {
+        return AbstractDAO.updateByCriteria(CREATE_CART_ITEM, "iidi", item.getMedicineId(),
+                                            item.getAmount(),
+                                            item.getPrice(),
+                                            item.getUserId());
     }
 
-    public List<OrderItem> findByCriteria(String st, String paramString, Object... params) {
-        List<OrderItem> items = new ArrayList<>();
+    /*public List<CartItem> findByCriteria(String st, String paramString, Object... params) {
+        List<CartItem> items = new ArrayList<>();
         try (Connection dbConnection = DBConnectionPool.getInstance().getConnection()) {
             try (PreparedStatement statement = dbConnection.prepareStatement(st)) {
                 for(int i = 0; i < paramString.length(); i++) {
@@ -82,7 +76,7 @@ public class CartDAO extends AbstractDAO<OrderItem> {
                 }
                 try (ResultSet result = statement.executeQuery()) {
                     while(result.next()) {
-                        OrderItem item = new OrderItem(
+                        CartItem item = new CartItem(
                                 result.getInt(1),
                                 result.getInt(2),
                                 result.getInt(5),
@@ -101,6 +95,6 @@ public class CartDAO extends AbstractDAO<OrderItem> {
             Util.lOGGER.error(e.getStackTrace());
         }
         return items;
-    }
+    }*/
 
 }

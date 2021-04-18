@@ -8,26 +8,37 @@ import com.epam.jwd.Servlet.dao.impl.MedicineDAO;
 import com.epam.jwd.Servlet.model.*;
 import com.epam.jwd.Servlet.service.CommonService;
 import javax.servlet.http.HttpSession;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 
 /**
  * service for handling with order items
  */
-public class CartService implements CommonService<OrderItemDto> {
+public class CartService implements CommonService<CartItemDto> {
 
     private final CartDAO cartDAO;
     private static int sessionOrderId = 1;
 
     private final RequestContext req;
 
+    private final Function<ResultSet, Optional<CartItem>> adder = resultSet -> {
+        try {
+            return Optional.of(new CartItem(resultSet));
+        } catch (SQLException e) {
+            return Optional.empty();
+        }
+    };
+
     /**
      * initializes cart DAO {@link CartDAO} and request Context {@link RequestContext}
-     * @param req
+     * @param req {@link RequestContext}
      */
     public CartService(RequestContext req) {
         cartDAO = new CartDAO();
@@ -37,10 +48,10 @@ public class CartService implements CommonService<OrderItemDto> {
 
     /**
      * finds all order items in database
-     * @return {@link List} of {@link OrderItemDto} order items from database
+     * @return {@link List} of {@link CartItemDto} order items from database
      */
     @Override
-    public List<OrderItemDto> findAll() {
+    public List<CartItemDto> findAll() {
         return new ArrayList<>();
     }
 
@@ -50,10 +61,10 @@ public class CartService implements CommonService<OrderItemDto> {
      * @param userId user id who added item to cart
      * @return true if item added successfully, false otherwise
      */
-    public boolean create(OrderItemDto item, int userId) {
+    public boolean create(CartItemDto item, int userId) {
         double price = item.getPrice();
         int amount = item.getAmount();
-        return cartDAO.create(new OrderItem(item.getMedicineId(), userId, amount, price));
+        return cartDAO.create(new CartItem(item.getMedicineId(), userId, amount, price));
     }
 
 
@@ -77,25 +88,25 @@ public class CartService implements CommonService<OrderItemDto> {
     /**
      * finds item by item id in database
      * @param id of item
-     * @return {@link Optional} of {@link OrderItemDto} founded in database, epmty {@link Optional} otherwise
+     * @return {@link Optional} of {@link CartItemDto} founded in database, epmty {@link Optional} otherwise
      */
     @Override
-    public Optional<OrderItemDto> findById(int id) {
+    public Optional<CartItemDto> findById(int id) {
         return cartDAO.findById(id).map(this::convertToDto);
     }
 
 
     /**
-     * coverts {@link OrderItem} to {@link OrderItemDto}
-     * @param orderItem to be converted
-     * @return converted {@link OrderItemDto}
+     * coverts {@link CartItem} to {@link CartItemDto}
+     * @param cartItem to be converted
+     * @return converted {@link CartItemDto}
      */
-    private OrderItemDto convertToDto(OrderItem orderItem) {
+    private CartItemDto convertToDto(CartItem cartItem) {
         String medicineName;
         int medicineDose;
         String medicineConsistency;
         MedicineDAO medicineDAO = new MedicineDAO();
-        Optional<Medicine> medicine = medicineDAO.findById(orderItem.getMedicineId());
+        Optional<Medicine> medicine = medicineDAO.findById(cartItem.getMedicineId());
         if(medicine.isPresent()) {
             medicineName = medicine.get().getName();
             medicineDose = medicine.get().getDose();
@@ -103,13 +114,13 @@ public class CartService implements CommonService<OrderItemDto> {
         } else {
             throw new IllegalStateException();
         }
-        return new OrderItemDto(orderItem.getId(),
-                orderItem.getMedicineId(),
+        return new CartItemDto(cartItem.getId(),
+                cartItem.getMedicineId(),
                 medicineName,
                 medicineDose,
                 medicineConsistency,
-                orderItem.getPrice(),
-                orderItem.getAmount()
+                cartItem.getPrice(),
+                cartItem.getAmount()
         );
     }
 
@@ -117,15 +128,20 @@ public class CartService implements CommonService<OrderItemDto> {
     /**
      * finds all items of concrete user
      * @param userId if of user
-     * @return {@link List} list of {@link OrderItemDto} items
+     * @return {@link List} list of {@link CartItemDto} items
      */
-    public List<OrderItemDto> findByUserId(int userId) {
+    public List<CartItemDto> findByUserId(int userId) {
         String st = "select * from pharmacy.Cart where user_id=?";
-        List<OrderItem> orderItems = cartDAO.findByCriteria(st, "i", userId);
-        MedicineDAO medicineDAO = new MedicineDAO();
-        return orderItems
+        List<CartItem> cartItems = AbstractDAO.findByCriteria(st, "i", adder, userId)
                 .stream()
-                .filter(orderItem -> medicineDAO.findById(orderItem.getMedicineId()).isPresent())
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
+
+        MedicineDAO medicineDAO = new MedicineDAO();
+        return cartItems
+                .stream()
+                .filter(cartItem -> medicineDAO.findById(cartItem.getMedicineId()).isPresent())
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
@@ -133,22 +149,30 @@ public class CartService implements CommonService<OrderItemDto> {
     /**
      * finds all items of concrete medicine id
      * @param medicine_id medicine id of orders
-     * @return {@link List} list of {@link OrderItem} items
+     * @return {@link List} list of {@link CartItem} items
      */
-    public List<OrderItem> findByMedicineId(int medicine_id) {
+    public List<CartItem> findByMedicineId(int medicine_id) {
         String st = "select * from pharmacy.Cart where medicine_id=?";
-        return cartDAO.findByCriteria(st, "i", medicine_id);
+        return AbstractDAO.<CartItem>findByCriteria(st, "i", adder, medicine_id)
+                .stream()
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
     }
 
     /**
      * finds item on concrete medicine of concrete user
      * @param medicineId id of medicine
      * @param userId id of user
-     * @return @return {@link Optional} of {@link OrderItemDto} founded in database, epmty {@link Optional} otherwise
+     * @return @return {@link Optional} of {@link CartItemDto} founded in database, epmty {@link Optional} otherwise
      */
-    public Optional<OrderItemDto> findByMedicineIdUserId(int medicineId, int userId) {
+    public Optional<CartItemDto> findByMedicineIdUserId(int medicineId, int userId) {
         String st = "select * from pharmacy.Cart where medicine_id=? and user_id=?";
-        List<OrderItem> items = cartDAO.findByCriteria(st, "ii", medicineId, userId);
+        List<CartItem> items = AbstractDAO.findByCriteria(st, "ii", adder, medicineId, userId)
+                .stream()
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
         if(!items.isEmpty()){
             return Optional.of(convertToDto(items.get(0)));
         }else {
@@ -159,41 +183,41 @@ public class CartService implements CommonService<OrderItemDto> {
 
     /**
      * increases amount of concrete order item in database or session
-     * @param orderItemDto {@link OrderItemDto} order item with all needed info
+     * @param cartItemDto {@link CartItemDto} order item with all needed info
      * @param amount amount growth of medicines in order
      * @return true if increasing was successful, false otherwise
      */
-    private boolean increaseAmountOfOrder(OrderItemDto orderItemDto, int amount) {
+    private boolean increaseAmountOfOrder(CartItemDto cartItemDto, int amount) {
         HttpSession session = req.getSession();
-        int orderId = orderItemDto.getId();
-        int newAmount = orderItemDto.getAmount() + amount;
-        double newPrice = orderItemDto.getPrice() / orderItemDto.getAmount() * newAmount;
+        int orderId = cartItemDto.getId();
+        int newAmount = cartItemDto.getAmount() + amount;
+        double newPrice = cartItemDto.getPrice() / cartItemDto.getAmount() * newAmount;
         if(session.getAttribute("user") == null) {
             session.removeAttribute("order_" + orderId);
-            OrderItemDto newOrderItem = new OrderItemDto(orderItemDto.getId(),
-                    orderItemDto.getMedicineId(),
-                    orderItemDto.getMedicineName(),
-                    orderItemDto.getMedicineDose(),
-                    orderItemDto.getMedicineConsistency(),
+            CartItemDto newOrderItem = new CartItemDto(cartItemDto.getId(),
+                    cartItemDto.getMedicineId(),
+                    cartItemDto.getMedicineName(),
+                    cartItemDto.getMedicineDose(),
+                    cartItemDto.getMedicineConsistency(),
                     newPrice,
                     newAmount);
             session.setAttribute("order_" + orderId, newOrderItem);
             return true;
         }
 
-        return changeDbAmount(orderItemDto, newAmount);
+        return changeDbAmount(cartItemDto, newAmount);
     }
 
     /**
      * changes amount of medicine in order in database
-     * @param orderItemDto {@link OrderItemDto} order item with all needed info
+     * @param cartItemDto {@link CartItemDto} order item with all needed info
      * @param newAmount new amount of medicines in order
      * @return true if changing was successful, false otherwise
      */
-    private boolean changeDbAmount(OrderItemDto orderItemDto, int newAmount){
-        double newPrice = orderItemDto.getPrice() / orderItemDto.getAmount() * newAmount;
+    private boolean changeDbAmount(CartItemDto cartItemDto, int newAmount){
+        double newPrice = cartItemDto.getPrice() / cartItemDto.getAmount() * newAmount;
         String st = "update pharmacy.Cart set amount=?, price=? where medicine_id=?";
-        return AbstractDAO.updateByCriteria(st, "idi", newAmount, newPrice, orderItemDto.getMedicineId());
+        return AbstractDAO.updateByCriteria(st, "idi", newAmount, newPrice, cartItemDto.getMedicineId());
     }
 
 
@@ -206,8 +230,8 @@ public class CartService implements CommonService<OrderItemDto> {
     public boolean addToCart(MedicineDto item, int amount) {
         HttpSession session = req.getSession();
         if(session.getAttribute("user") == null) {
-            List<OrderItemDto> orderItems = getSessionCartItems();
-            for(OrderItemDto orderItem : orderItems) {
+            List<CartItemDto> orderItems = getSessionCartItems();
+            for(CartItemDto orderItem : orderItems) {
                 if(orderItem.getMedicineId() == item.getId()) {
                     return increaseAmountOfOrder(orderItem, amount);
                 }
@@ -216,13 +240,13 @@ public class CartService implements CommonService<OrderItemDto> {
             UserService userService = new UserService();
             UserDto user = (UserDto)session.getAttribute("user");
             int userId = userService.findByLogin(user.getLogin()).get().getId();
-            Optional<OrderItemDto> elem = findByMedicineIdUserId(item.getId(), userId);
+            Optional<CartItemDto> elem = findByMedicineIdUserId(item.getId(), userId);
             if(elem.isPresent()) {
                 return increaseAmountOfOrder(elem.get(), amount);
             }
         }
         if(session.getAttribute("user") == null) {
-            OrderItemDto orderItem = new OrderItemDto(
+            CartItemDto orderItem = new CartItemDto(
                     sessionOrderId,
                     item.getId(),
                     item.getName(),
@@ -238,7 +262,7 @@ public class CartService implements CommonService<OrderItemDto> {
             UserService userService = new UserService();
             UserDto user = (UserDto)session.getAttribute("user");
             int userId = userService.findByLogin(user.getLogin()).get().getId();
-            OrderItemDto orderItemDto = new OrderItemDto(
+            CartItemDto cartItemDto = new CartItemDto(
                     0,
                     item.getId(),
                     item.getName(),
@@ -247,24 +271,24 @@ public class CartService implements CommonService<OrderItemDto> {
                     amount * item.getPrice(),
                     amount
             );
-            return create(orderItemDto, userId);
+            return create(cartItemDto, userId);
         }
     }
 
 
     /**
      * get all order items, that are stored in session
-     * @return {@link List} of {@link OrderItemDto} of order items in session
+     * @return {@link List} of {@link CartItemDto} of order items in session
      */
-    public List<OrderItemDto> getSessionCartItems() {
-        List<OrderItemDto> orderItems = new ArrayList<>();
+    public List<CartItemDto> getSessionCartItems() {
+        List<CartItemDto> orderItems = new ArrayList<>();
         HttpSession session = req.getSession();
         Enumeration<String> params = session.getAttributeNames();
         while(params.hasMoreElements()) {
             String param = params.nextElement();
-            OrderItemDto item;
+            CartItemDto item;
             try{
-                item = (OrderItemDto) session.getAttribute(param);
+                item = (CartItemDto) session.getAttribute(param);
             }catch (ClassCastException e){
                 continue;
             }
@@ -281,11 +305,11 @@ public class CartService implements CommonService<OrderItemDto> {
         UserService userService = new UserService();
         UserDto userDto = (UserDto)session.getAttribute("user");
         User user = userService.findByLogin(userDto.getLogin()).get();
-        List<OrderItemDto> sessionOrders = getSessionCartItems();
-        List<OrderItemDto> dbOrders = findByUserId(user.getId());
-        for(OrderItemDto sessionOrder : sessionOrders) {
+        List<CartItemDto> sessionOrders = getSessionCartItems();
+        List<CartItemDto> dbOrders = findByUserId(user.getId());
+        for(CartItemDto sessionOrder : sessionOrders) {
             boolean isMerged = false;
-            for(OrderItemDto dbOrder : dbOrders) {
+            for(CartItemDto dbOrder : dbOrders) {
                 if(sessionOrder.getMedicineId() == dbOrder.getMedicineId()){
                     isMerged = true;
                     changeDbAmount(dbOrder, sessionOrder.getAmount() + dbOrder.getAmount());

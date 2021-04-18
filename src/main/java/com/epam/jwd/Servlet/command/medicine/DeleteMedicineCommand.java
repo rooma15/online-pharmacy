@@ -3,7 +3,7 @@ package com.epam.jwd.Servlet.command.medicine;
 import com.epam.jwd.Servlet.command.Command;
 import com.epam.jwd.Servlet.command.RequestContext;
 import com.epam.jwd.Servlet.command.ResponseContext;
-import com.epam.jwd.Servlet.model.OrderItem;
+import com.epam.jwd.Servlet.model.CartItem;
 import com.epam.jwd.Servlet.model.Prescription;
 import com.epam.jwd.Servlet.service.impl.CartService;
 import com.epam.jwd.Servlet.service.impl.MedicineService;
@@ -78,8 +78,8 @@ public enum DeleteMedicineCommand implements Command {
         List<Prescription> prescriptionList = prescriptionService.findByMedicineId(id);
         prescriptionList.forEach(prescription -> prescriptionService.deleteById(prescription.getId()));
         CartService cartService = new CartService(req);
-        List<OrderItem> orderItems = cartService.findByMedicineId(id);
-        orderItems.forEach(orderItem -> cartService.deleteById(orderItem.getId()));
+        List<CartItem> cartItems = cartService.findByMedicineId(id);
+        cartItems.forEach(cartItem -> cartService.deleteById(cartItem.getId()));
         boolean status = service.deleteById(id);
         if(!status){
             return Util.NOT_FOUND_REQUEST_CONTEXT;

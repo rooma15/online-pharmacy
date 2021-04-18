@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class PrescriptionDAO extends AbstractDAO<Prescription> {
 
@@ -78,42 +79,18 @@ public class PrescriptionDAO extends AbstractDAO<Prescription> {
 
 
     public List<Prescription> findAccepted(boolean isAccepted) {
-        return  findByCriteria(GET_ACCEPTED_PRESCRIPTIONS, "b", isAccepted);
-    }
-
-    public List<Prescription> findByCriteria(String st, String paramString, Object... params) {
-        List<Prescription> prescriptions = new ArrayList<>();
-        try (Connection dbConnection = DBConnectionPool.getInstance().getConnection()) {
-            try (PreparedStatement statement = dbConnection.prepareStatement(st)) {
-                for(int i = 0; i < paramString.length(); i++) {
-                    char type = paramString.charAt(i);
-                    switch (type){
-                        case 'i': statement.setInt(i + 1, (int)params[i]);break;
-                        case 's': statement.setString(i + 1, (String)params[i]);break;
-                        case 'b': statement.setBoolean(i + 1, (boolean)params[i]);break;
-                        case 'd': statement.setDouble(i + 1, (double)params[i]);break;
-                    }
-                }
-                try (ResultSet result = statement.executeQuery()) {
-                    while(result.next()) {
-                        Prescription prescription =new Prescription(
-                                result.getInt(1),
-                                result.getInt(2),
-                                result.getInt(3),
-                                result.getBoolean(4)
-                        );
-                        prescriptions.add(prescription);
-                    }
-                } catch (SQLException e) {
-                    Util.lOGGER.error(e.getStackTrace());
-                }
+        Function<ResultSet, Optional<Prescription>> adder = resultSet -> {
+            try {
+                return Optional.of(new Prescription(resultSet));
             } catch (SQLException e) {
-                Util.lOGGER.error(e.getStackTrace());
+                return Optional.empty();
             }
-        } catch (InterruptedException | SQLException e) {
-            Util.lOGGER.error(e.getStackTrace());
-        }
-        return prescriptions;
-    }
+        };
 
+        return AbstractDAO.<Prescription>findByCriteria(GET_ACCEPTED_PRESCRIPTIONS, "b", adder, isAccepted)
+                .stream()
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
+    }
 }

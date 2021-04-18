@@ -7,11 +7,11 @@ import java.util.Objects;
 import org.apache.commons.text.StringEscapeUtils;
 
 public class User extends Entity{
-    private String login;
-    private String password;
-    private String name;
+    private final String login;
+    private final String password;
+    private final String name;
 
-    private UserRole role;
+    private final UserRole role;
 
     public String getName() {
         return name;

@@ -22,28 +22,22 @@ public class MedicineDAO extends AbstractDAO<Medicine> {
             "dose=?, prescription_drug=?, description=?, indications_for_use=?, contraindications=?," +
             "side_effects=?, consistency=?, composition=?, price=?, category=? where id=?";
 
+    private final Function<ResultSet, Optional<Medicine>> adder = resultSet -> {
+        try {
+            return Optional.of(new Medicine(resultSet));
+        } catch (SQLException e) {
+            return Optional.empty();
+        }
+    };
+
     @Override
     public List<Optional<Medicine>> findAll(){
-        Function<ResultSet, Optional<Medicine>> adder = resultSet -> {
-            try {
-                return Optional.of(new Medicine(resultSet));
-            } catch (SQLException e) {
-                return Optional.empty();
-            }
-        };
         return super.findAll(GET_MEDICINES, adder);
     }
 
     @Override
     public Optional<Medicine> findById(int id){
-        Function<ResultSet, Optional<Medicine>> f = res -> {
-            try {
-                return Optional.of(new Medicine(res));
-            } catch (SQLException e) {
-                return Optional.empty();
-            }
-        };
-        return super.findById(id, GET_MEDICINE_BY_ID, f);
+        return super.findById(id, GET_MEDICINE_BY_ID, adder);
     }
 
     @Override
@@ -53,61 +47,31 @@ public class MedicineDAO extends AbstractDAO<Medicine> {
 
     @Override
     public boolean create(Medicine medicine) {
-        try (Connection dbConnection = connectionPool.getConnection()) {
-            try (PreparedStatement statement = dbConnection.prepareStatement(CREATE_MEDICINE)) {
-                statement.setString(1, medicine.getName());
-                statement.setInt(2, medicine.getDose());
-                statement.setBoolean(3, medicine.getPrescriptionDrug());
-                statement.setString(4, medicine.getDescription());
-                statement.setString(5, medicine.getIndicationsForUse());
-                statement.setString(6, medicine.getContraindications());
-                statement.setString(7, medicine.getSideEffects());
-                statement.setString(8, medicine.getConsistency());
-                statement.setString(9, medicine.getComposition());
-                statement.setDouble(10, medicine.getPrice());
-                statement.setString(11, medicine.getCategory());
-                int rows = statement.executeUpdate();
-                if(rows > 0){
-                    return true;
-                }else {
-                    return false;
-                }
-            } catch (SQLException e) {
-                Util.lOGGER.error(e.getStackTrace());
-            }
-        } catch (InterruptedException | SQLException e) {
-            Util.lOGGER.error(e.getStackTrace());
-        }
-        return false;
+        return AbstractDAO.updateByCriteria(CREATE_MEDICINE, "sibssssssds", medicine.getName(),
+                                            medicine.getDose(),
+                                            medicine.getPrescriptionDrug(),
+                                            medicine.getDescription(),
+                                            medicine.getIndicationsForUse(),
+                                            medicine.getContraindications(),
+                                            medicine.getSideEffects(),
+                                            medicine.getConsistency(),
+                                            medicine.getComposition(),
+                                            medicine.getPrice(),
+                                            medicine.getCategory());
     }
 
     public boolean updateById(int id, Medicine medicine){
-        try (Connection dbConnection = connectionPool.getConnection()) {
-            try (PreparedStatement statement = dbConnection.prepareStatement(UPDATE_MEDICINE)) {
-                statement.setString(1, medicine.getName());
-                statement.setInt(2, medicine.getDose());
-                statement.setBoolean(3, medicine.getPrescriptionDrug());
-                statement.setString(4, medicine.getDescription());
-                statement.setString(5, medicine.getIndicationsForUse());
-                statement.setString(6, medicine.getContraindications());
-                statement.setString(7, medicine.getSideEffects());
-                statement.setString(8, medicine.getConsistency());
-                statement.setString(9, medicine.getComposition());
-                statement.setDouble(10, medicine.getPrice());
-                statement.setString(11, medicine.getCategory());
-                statement.setInt(12, id);
-                int rows = statement.executeUpdate();
-                if(rows > 0){
-                    return true;
-                }else {
-                    return false;
-                }
-            } catch (SQLException e) {
-                Util.lOGGER.error(e.getStackTrace());
-            }
-        } catch (InterruptedException | SQLException e) {
-            Util.lOGGER.error(e.getStackTrace());
-        }
-        return false;
+        return AbstractDAO.updateByCriteria(UPDATE_MEDICINE, "sibssssssdsi", medicine.getName(),
+                                            medicine.getDose(),
+                                            medicine.getPrescriptionDrug(),
+                                            medicine.getDescription(),
+                                            medicine.getIndicationsForUse(),
+                                            medicine.getContraindications(),
+                                            medicine.getSideEffects(),
+                                            medicine.getConsistency(),
+                                            medicine.getComposition(),
+                                            medicine.getPrice(),
+                                            medicine.getCategory(),
+                                            id);
     }
 }

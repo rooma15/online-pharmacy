@@ -3,60 +3,80 @@ package com.epam.jwd.Servlet.model;
 import java.util.Objects;
 
 public class OrderItemDto {
-    private final int id;
-    private final int medicineId;
-    private final String medicineName;
-    private final int medicineDose;
-    private final String medicineConsistency;
-    private final double price;
+    private final int orderId;
     private final int amount;
-
-
-
+    private final double price;
+    private final String name;
+    private final int dose;
+    private final String consistency;
+    private final String category;
+    private final int id;
 
     public OrderItemDto(int id,
-                        int medicineId,
-                        String medicineName,
-                        int medicineDose,
-                        String medicineConsistency,
+                        int orderId,
+                        int amount,
                         double price,
-                        int amount) {
-        this.id = id;
-        this.medicineId = medicineId;
-        this.medicineName = medicineName;
-        this.medicineDose = medicineDose;
-        this.medicineConsistency = medicineConsistency;
-        this.price = price;
+                        String name,
+                        int dose,
+                        String consistency,
+                        String category) {
+        this.orderId = orderId;
         this.amount = amount;
+        this.price = price;
+        this.name = name;
+        this.dose = dose;
+        this.consistency = consistency;
+        this.category = category;
+        this.id = id;
     }
 
-
-    public int getId() {
-        return id;
+    public OrderItemDto(int orderId,
+                        int amount,
+                        double price,
+                        String name,
+                        int dose,
+                        String consistency,
+                        String category) {
+        this.orderId = orderId;
+        this.amount = amount;
+        this.price = price;
+        this.name = name;
+        this.dose = dose;
+        this.consistency = consistency;
+        this.category = category;
+        this.id = 0;
     }
 
-    public int getMedicineId() {
-        return medicineId;
+    public int getOrderId() {
+        return orderId;
     }
 
-    public String getMedicineName() {
-        return medicineName;
-    }
-
-    public int getMedicineDose() {
-        return medicineDose;
-    }
-
-    public String getMedicineConsistency() {
-        return medicineConsistency;
+    public int getAmount() {
+        return amount;
     }
 
     public double getPrice() {
         return price;
     }
 
-    public int getAmount() {
-        return amount;
+    public String getName() {
+        return name;
+    }
+
+    public int getDose() {
+        return dose;
+    }
+
+    public String getConsistency() {
+        return consistency;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public int getId() {
+        return id;
     }
 
     @Override
@@ -64,17 +84,18 @@ public class OrderItemDto {
         if(this == o) return true;
         if(o == null || getClass() != o.getClass()) return false;
         OrderItemDto that = (OrderItemDto) o;
-        return id == that.id &&
-                medicineId == that.medicineId &&
-                medicineDose == that.medicineDose &&
-                Double.compare(that.price, price) == 0 &&
+        return orderId == that.orderId &&
                 amount == that.amount &&
-                Objects.equals(medicineName, that.medicineName) &&
-                Objects.equals(medicineConsistency, that.medicineConsistency);
+                Double.compare(that.price, price) == 0 &&
+                dose == that.dose &&
+                id == that.id &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(consistency, that.consistency) &&
+                Objects.equals(category, that.category);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, medicineId, medicineName, medicineDose, medicineConsistency, price, amount);
+        return Objects.hash(orderId, amount, price, name, dose, consistency, category, id);
     }
 }

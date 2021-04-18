@@ -9,9 +9,13 @@ import com.epam.jwd.Servlet.model.Prescription;
 import com.epam.jwd.Servlet.model.PrescriptionDto;
 import com.epam.jwd.Servlet.model.User;
 import com.epam.jwd.Servlet.service.CommonService;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -22,6 +26,13 @@ public class PrescriptionService implements CommonService<PrescriptionDto> {
 
     private final PrescriptionDAO prescriptionDAO;
 
+    private final Function<ResultSet, Optional<Prescription>> adder = resultSet -> {
+        try {
+            return Optional.of(new Prescription(resultSet));
+        } catch (SQLException e) {
+            return Optional.empty();
+        }
+    };
     /**
      * initializes prescription DAO {@link PrescriptionDAO}
      */
@@ -145,9 +156,10 @@ public class PrescriptionService implements CommonService<PrescriptionDto> {
      */
     public Optional<Prescription> findByUserIdMedicineId(int userId, int medicineId){
         String st = "select * from pharmacy.Prescriptions where user_id=? and medicine_id=?";
-        List<Prescription> prescriptions = prescriptionDAO.findByCriteria(st, "ii", userId, medicineId);
+        List<Optional<Prescription>> prescriptions = AbstractDAO
+                .<Prescription>findByCriteria(st, "ii", adder, userId, medicineId);
         if(!prescriptions.isEmpty()){
-            return Optional.of(prescriptions.get(0));
+            return prescriptions.get(0);
         }else {
             return Optional.empty();
         }
@@ -155,12 +167,16 @@ public class PrescriptionService implements CommonService<PrescriptionDto> {
 
     /**
      * inds prescriptions of concrete medicine
-     * @param medicineId
+     * @param medicineId id of medicine to be found
      * @return {@link List} of prescriptions of this medicine
      */
     public List<Prescription> findByMedicineId(int medicineId){
         String st = "select * from pharmacy.Prescriptions where medicine_id=?";
-        return prescriptionDAO.findByCriteria(st, "i", medicineId);
+        return AbstractDAO.<Prescription>findByCriteria(st, "i", adder, medicineId)
+                .stream()
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -170,7 +186,11 @@ public class PrescriptionService implements CommonService<PrescriptionDto> {
      */
     public List<Prescription> findByUserId(int userId){
         String st = "select * from pharmacy.Prescriptions where user_id=?";
-        return prescriptionDAO.findByCriteria(st, "i", userId);
+        return AbstractDAO.<Prescription>findByCriteria(st, "i",adder, userId)
+                .stream()
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
     }
 
     /**
