@@ -20,16 +20,17 @@
     <c:forEach var="order" items="${orders}">
         <div class="order">
             <span class="order-text">
-                Order number: ${order.key.id}
+                <fmt:message key="order.number"/> : ${order.key.id}
             </span>
             <span class="order-text float-right">
-                Date: ${order.key.orderDate}
+                <fmt:message key="order.date"/> : ${order.key.orderDate}
             </span>
             <c:forEach var="orderItems" items="${order.value}">
                 <div class="row mb-3 order-item justify-content-center">
                     <div class="col-6">
                         <h3>
-                            <a href="/Controller?action=show_medicine_page&id=${orderItems.medicineId}" style="color: white">
+                            <a href="/Controller?action=show_medicine_page&id=${orderItems.medicineId}"
+                               style="color: white">
                                     ${orderItems.name}
                             </a>
                         </h3><br>
@@ -43,7 +44,7 @@
                 </div>
             </c:forEach>
             <span class="order-text">
-                Total Price: ${order.key.orderPrice}
+                <fmt:message key="cart.summary"/> : ${order.key.orderPrice}
             </span>
         </div>
     </c:forEach>

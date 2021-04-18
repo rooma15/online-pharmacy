@@ -25,15 +25,19 @@
             <form action="/Controller?action=filter" method="get" id="filterForm">
                 <label class="filter-block-label"><fmt:message key="admin.medicine.category"/></label>
                 <div class="filter-block">
-                    <input type="checkbox" name="category" value="антибиотики"> <fmt:message key="medicine.antibiotics"/><br><br>
-                    <input type="checkbox" name="category" value="витамины"> <fmt:message key="medicine.vitamins"/><br><br>
+                    <input type="checkbox" name="category" value="антибиотики"> <fmt:message
+                        key="medicine.antibiotics"/><br><br>
+                    <input type="checkbox" name="category" value="витамины"> <fmt:message
+                        key="medicine.vitamins"/><br><br>
                     <input type="checkbox" name="category" value="гормональные"> <fmt:message key="medicine.hormonal"/>
                 </div>
 
                 <label class="filter-block-label"><fmt:message key="admin.medicine.consistency"/> </label>
                 <div class="filter-block">
-                    <input type="checkbox" name="consistency" value="мазь"> <fmt:message key="medicine.ointment"/><br><br>
-                    <input type="checkbox" name="consistency" value="таблетки"> <fmt:message key="medicine.pills"/><br><br>
+                    <input type="checkbox" name="consistency" value="мазь"> <fmt:message
+                        key="medicine.ointment"/><br><br>
+                    <input type="checkbox" name="consistency" value="таблетки"> <fmt:message
+                        key="medicine.pills"/><br><br>
                     <input type="checkbox" name="consistency" value="капли"> <fmt:message key="medicine.drops"/><br><br>
                 </div>
                 <label class="filter-block-label"><fmt:message key="medicine.recipe"/> </label>
@@ -57,7 +61,7 @@
                             <div class="prescription-plug"></div>
                         </c:if>
                         <c:if test="${medicines.prescriptionDrug == true}">
-                            <div class="recipe"><fmt:message key="medicine.recipe"/> </div>
+                            <div class="recipe"><fmt:message key="medicine.recipe"/></div>
                         </c:if>
                         <c:out value="${medicines.name}"></c:out><br>
                         <c:out value="${medicines.dose}"></c:out> мг<br>
@@ -68,7 +72,7 @@
                         <span class="price-text"><fmt:message key="index.price"/> </span> <span class="price">
                 <c:out value="${medicines.price}"></c:out></span><br>
                         <a href="${pageContext.request.contextPath}/Controller?action=show_medicine_page&id=${medicines.id}">
-                            <button class="buy-button"><fmt:message key="index.more"/> </button>
+                            <button class="buy-button"><fmt:message key="index.more"/></button>
                         </a>
                     </div>
                 </div>
@@ -81,7 +85,7 @@
 </div>
 
 <c:if test="${empty allItems}">
-    <h1 class="text-center no-goods"><fmt:message key="index.noGoods"/> </h1>
+    <h1 class="text-center no-goods"><fmt:message key="index.noGoods"/></h1>
 </c:if>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
