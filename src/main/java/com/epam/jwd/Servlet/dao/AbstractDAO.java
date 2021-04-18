@@ -21,11 +21,12 @@ public abstract class AbstractDAO<T extends Entity> {
 
     /**
      * find all entites in database
-     * @param st statement to be executed
+     *
+     * @param st          statement to be executed
      * @param entityAdder functional interface, used to create entity
      * @return {@link List} of {@link Optional} of entities
      */
-    protected List<Optional<T>> findAll(String st, Function<ResultSet, Optional<T>> entityAdder){
+    protected List<Optional<T>> findAll(String st, Function<ResultSet, Optional<T>> entityAdder) {
         return AbstractDAO.<T>findByCriteria(st, "", entityAdder);
     }
 
@@ -33,39 +34,42 @@ public abstract class AbstractDAO<T extends Entity> {
 
 
     /**
-     *
      * find  entity by id in database
-     * @param id if of entity
-     * @param st statement to be executed
+     *
+     * @param id       if of entity
+     * @param st       statement to be executed
      * @param function functional interface, used to create entity
      * @return {@link Optional} of {@link Entity}
      */
-    protected Optional<T> findById(int id, String st, Function<ResultSet, Optional<T>> function){
+    protected Optional<T> findById(int id, String st, Function<ResultSet, Optional<T>> function) {
         List<Optional<T>> items = AbstractDAO.<T>findByCriteria(st, "i", function, id);
-        if(items.isEmpty()){
+        if(items.isEmpty()) {
             return Optional.empty();
-        }else{
+        } else {
             return items.get(0);
         }
     }
 
     public abstract boolean deleteById(int id);
 
-    protected boolean deleteById(int id, String st){
+    protected boolean deleteById(int id, String st) {
         return updateByCriteria(st, "i", id);
-    };
+    }
+
+    ;
 
     public abstract boolean create(T entity);
 
 
     /**
      * uses to get data from small tables with one field
+     *
      * @param query query to be executed
      * @return {@link List} of some values
      */
-    public static List<String> getOptions(String query){
+    public static List<String> getOptions(String query) {
         List<String> elems = new ArrayList<>();
-        try (Connection dbConnection = DBConnectionPool.getInstance().getConnection()){
+        try (Connection dbConnection = DBConnectionPool.getInstance().getConnection()) {
             try (Statement statement = dbConnection.createStatement()) {
                 try (ResultSet result = statement.executeQuery(query)) {
                     while(result.next()) {
@@ -85,10 +89,11 @@ public abstract class AbstractDAO<T extends Entity> {
 
     /**
      * used to perform all update operations with database
-     * @param st statemnt to be executed
+     *
+     * @param st          statemnt to be executed
      * @param paramString string of parameter types
      *                    i: int, s: {@link String}, d: double, b: boolean
-     * @param params list of params used in statement
+     * @param params      list of params used in statement
      * @return true if update was successful, false otherwise
      */
     public static boolean updateByCriteria(String st, String paramString, Object... params) {
@@ -108,6 +113,9 @@ public abstract class AbstractDAO<T extends Entity> {
                             break;
                         case 'd':
                             statement.setDouble(i + 1, (double) params[i]);
+                            break;
+                        case 't':
+                            statement.setTimestamp(i + 1, (Timestamp) params[i]);
                             break;
                     }
                 }
@@ -129,28 +137,40 @@ public abstract class AbstractDAO<T extends Entity> {
 
     /**
      * finds something in database using sql expression
-     * @param st sql expression to select something from database
+     *
+     * @param st          sql expression to select something from database
      * @param paramString string of parameter types
-     *                      i: int, s: {@link String}, d: double, b: boolean
+     *                    i: int, s: {@link String}, d: double, b: boolean
      * @param entityAdder {@link Function} with this interface you must delegate
-     *                                    creation of Entities
-     *                                    with selected information from database
-     * @param params parameters of selection that will be inserted into sql query
+     *                    creation of Entities
+     *                    with selected information from database
+     * @param params      parameters of selection that will be inserted into sql query
      * @return {@link List} of {@link Optional} of template value
      */
-    public static <E extends Entity> List<Optional<E>> findByCriteria(String st, String paramString,Function<ResultSet,
-                                            Optional<E>> entityAdder,
-                                            Object... params) {
+    public static <E extends Entity> List<Optional<E>> findByCriteria(String st, String paramString, Function<ResultSet,
+            Optional<E>> entityAdder,
+                                                                      Object... params) {
         List<Optional<E>> items = new ArrayList<>();
         try (Connection dbConnection = DBConnectionPool.getInstance().getConnection()) {
             try (PreparedStatement statement = dbConnection.prepareStatement(st)) {
                 for(int i = 0; i < paramString.length(); i++) {
                     char type = paramString.charAt(i);
-                    switch (type){
-                        case 'i': statement.setInt(i + 1, (int)params[i]);break;
-                        case 's': statement.setString(i + 1, (String)params[i]);break;
-                        case 'b': statement.setBoolean(i + 1, (boolean)params[i]);break;
-                        case 'd': statement.setDouble(i + 1, (double)params[i]);break;
+                    switch (type) {
+                        case 'i':
+                            statement.setInt(i + 1, (int) params[i]);
+                            break;
+                        case 's':
+                            statement.setString(i + 1, (String) params[i]);
+                            break;
+                        case 'b':
+                            statement.setBoolean(i + 1, (boolean) params[i]);
+                            break;
+                        case 'd':
+                            statement.setDouble(i + 1, (double) params[i]);
+                            break;
+                        case 't':
+                            statement.setTimestamp(i + 1, (Timestamp) params[i]);
+                            break;
                     }
                 }
                 try (ResultSet result = statement.executeQuery()) {

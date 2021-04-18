@@ -22,6 +22,8 @@ public class OrderItemDAO extends AbstractDAO<OrderItem> {
             return Optional.empty();
         }
     };
+
+
     @Override
     public List<Optional<OrderItem>> findAll() {
         return super.findAll(GET_ORDER_ITEMS, adder);
@@ -39,14 +41,14 @@ public class OrderItemDAO extends AbstractDAO<OrderItem> {
 
     @Override
     public boolean create(OrderItem orderItem) {
-        return AbstractDAO.updateByCriteria(CREATE, "iidsiss",
+        return AbstractDAO.updateByCriteria(CREATE, "iidsisi",
                 orderItem.getOrderId(),
                 orderItem.getAmount(),
                 orderItem.getPrice(),
                 orderItem.getName(),
                 orderItem.getDose(),
                 orderItem.getConsistency(),
-                orderItem.getCategory()
+                orderItem.getMedicineId()
                 );
     }
 }

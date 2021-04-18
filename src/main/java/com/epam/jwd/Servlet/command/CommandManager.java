@@ -6,6 +6,7 @@ import com.epam.jwd.Servlet.command.medicine.AddMedicineCommand;
 import com.epam.jwd.Servlet.command.medicine.BuyMedicineCommand;
 import com.epam.jwd.Servlet.command.medicine.DeleteMedicineCommand;
 import com.epam.jwd.Servlet.command.medicine.UpdateMedicineCommand;
+import com.epam.jwd.Servlet.command.order.MakeOrderCommand;
 import com.epam.jwd.Servlet.command.page.*;
 import com.epam.jwd.Servlet.command.prescription.CreatePrescriptionCommand;
 import com.epam.jwd.Servlet.command.prescription.EditPrescriptionsCommand;
@@ -36,7 +37,9 @@ public enum CommandManager {
     OPEN_CART(OpenCartCommand.INSTANCE),
     DELETE_ORDER_ITEM(DeleteOrderItemCommand.INSTANCE),
     CHANGE_LOCALE(ChangeLocaleCommand.INSTANCE),
-    FILTER(FilterCommand.INSTANCE);
+    FILTER(FilterCommand.INSTANCE),
+    MAKE_ORDER(MakeOrderCommand.INSTANCE),
+    SHOW_ORDER_HISTORY(ShowOrderHistoryCommand.INSTANCE);
 
      private final Command command;
 

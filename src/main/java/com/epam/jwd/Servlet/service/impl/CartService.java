@@ -323,4 +323,14 @@ public class CartService implements CommonService<CartItemDto> {
         }
     }
 
+    public boolean clearCart(){
+        HttpSession session = req.getSession();
+        String st = "delete from pharmacy.Cart where user_id=? and id>0";
+        UserService userService = new UserService();
+        UserDto userDto = (UserDto)session.getAttribute("user");
+        User user = userService.findByLogin(userDto.getLogin()).get();
+        return AbstractDAO.updateByCriteria(st, "i", user.getId());
+
+    }
+
 }

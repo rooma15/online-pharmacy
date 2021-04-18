@@ -1,6 +1,5 @@
 package com.epam.jwd.Servlet.model;
 
-import javax.persistence.criteria.Order;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
@@ -12,16 +11,10 @@ public class OrderItem extends Entity{
     private final String name;
     private final int dose;
     private final String consistency;
-    private final String category;
+    private final int medicineId;
 
-    public OrderItem(int id,
-                     int orderId,
-                     int amount,
-                     double price,
-                     String name,
-                     int dose,
-                     String consistency,
-                     String category) {
+    public OrderItem(int id, int orderId, int amount, double price, String name,
+                     int dose, String consistency, int medicineId) {
         super(id);
         this.orderId = orderId;
         this.amount = amount;
@@ -29,20 +22,18 @@ public class OrderItem extends Entity{
         this.name = name;
         this.dose = dose;
         this.consistency = consistency;
-        this.category = category;
+        this.medicineId = medicineId;
     }
 
-    public OrderItem(int orderId,
-                     int amount,
-                     double price,
-                     String name, int dose, String consistency, String category) {
+    public OrderItem(int orderId, int amount, double price, String name,
+                     int dose, String consistency, int medicineId) {
         this.orderId = orderId;
         this.amount = amount;
         this.price = price;
         this.name = name;
         this.dose = dose;
         this.consistency = consistency;
-        this.category = category;
+        this.medicineId = medicineId;
     }
 
     public OrderItem(ResultSet resultSet) throws SQLException{
@@ -53,7 +44,7 @@ public class OrderItem extends Entity{
         this.name = resultSet.getString(5);
         this.dose = resultSet.getInt(6);
         this.consistency = resultSet.getString(7);
-        this.category = resultSet.getString(8);
+        this.medicineId = resultSet.getInt(8);
     }
 
     public int getOrderId() {
@@ -80,12 +71,12 @@ public class OrderItem extends Entity{
         return consistency;
     }
 
-    public String getCategory() {
-        return category;
-    }
-
     public int getId(){
         return id;
+    }
+
+    public int getMedicineId() {
+        return medicineId;
     }
 
     @Override
@@ -97,13 +88,13 @@ public class OrderItem extends Entity{
                 amount == orderItem.amount &&
                 Double.compare(orderItem.price, price) == 0 &&
                 dose == orderItem.dose &&
-                name.equals(orderItem.name) &&
-                consistency.equals(orderItem.consistency) &&
-                category.equals(orderItem.category);
+                medicineId == orderItem.medicineId &&
+                Objects.equals(name, orderItem.name) &&
+                Objects.equals(consistency, orderItem.consistency);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(orderId, amount, price, name, dose, consistency, category);
+        return Objects.hash(orderId, amount, price, name, dose, consistency, medicineId);
     }
 }

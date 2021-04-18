@@ -224,6 +224,18 @@ input[type="number"]{
     background-color: red;
     color: pink;
 }
+
+.order-items-button{
+    padding: 10px 15px 10px 15px;
+    border-radius: 7px;
+    background-color: #50be14;
+    color: white;
+}
+
+.order-items-button:hover{
+    color: white;
+}
+
 .delete-order-item-button:hover{
     text-decoration: none;
     color: pink;
@@ -278,4 +290,17 @@ input[type="number"]{
     position: absolute;
     margin-left: 900px;
     top: 300px;
+}
+
+.order{
+    background-color: pink;
+    padding: 20px 40px 20px 40px;
+    border-radius: 10px;
+    margin-bottom: 40px;
+}
+
+.order-text{
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
 }

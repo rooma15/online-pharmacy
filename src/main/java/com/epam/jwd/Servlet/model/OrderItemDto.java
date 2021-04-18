@@ -9,25 +9,19 @@ public class OrderItemDto {
     private final String name;
     private final int dose;
     private final String consistency;
-    private final String category;
     private final int id;
+    private final int medicineId;
 
-    public OrderItemDto(int id,
-                        int orderId,
-                        int amount,
-                        double price,
-                        String name,
-                        int dose,
-                        String consistency,
-                        String category) {
+    public OrderItemDto(int id,int orderId, int amount, double price, String name,
+                        int dose, String consistency, int medicineId) {
         this.orderId = orderId;
         this.amount = amount;
         this.price = price;
         this.name = name;
         this.dose = dose;
         this.consistency = consistency;
-        this.category = category;
         this.id = id;
+        this.medicineId = medicineId;
     }
 
     public OrderItemDto(int orderId,
@@ -36,14 +30,14 @@ public class OrderItemDto {
                         String name,
                         int dose,
                         String consistency,
-                        String category) {
+                        int medicineId) {
         this.orderId = orderId;
         this.amount = amount;
         this.price = price;
         this.name = name;
         this.dose = dose;
         this.consistency = consistency;
-        this.category = category;
+        this.medicineId = medicineId;
         this.id = 0;
     }
 
@@ -71,12 +65,12 @@ public class OrderItemDto {
         return consistency;
     }
 
-    public String getCategory() {
-        return category;
-    }
-
     public int getId() {
         return id;
+    }
+
+    public int getMedicineId() {
+        return medicineId;
     }
 
     @Override
@@ -89,13 +83,13 @@ public class OrderItemDto {
                 Double.compare(that.price, price) == 0 &&
                 dose == that.dose &&
                 id == that.id &&
+                medicineId == that.medicineId &&
                 Objects.equals(name, that.name) &&
-                Objects.equals(consistency, that.consistency) &&
-                Objects.equals(category, that.category);
+                Objects.equals(consistency, that.consistency);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(orderId, amount, price, name, dose, consistency, category, id);
+        return Objects.hash(orderId, amount, price, name, dose, consistency, id, medicineId);
     }
 }

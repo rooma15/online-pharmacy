@@ -7,28 +7,34 @@
 <div class="header container-fluid">
     <div class="container">
         <div class="row header-block align-items-center">
-            <div class="col-6 justify-content-center">
+            <div class="col-5 justify-content-center">
                 <div class="logo">
                     <a href="../../index.jsp">Pharmacy</a>
                 </div>
             </div>
+            <c:if test="${not empty user}">
+                <div class="col-2">
+                    <a href="/Controller?action=show_order_history"><fmt:message key="header.history"/></a>
+                </div>
+            </c:if>
             <c:if test="${user.role eq 'doctor'}">
-            <div class="col-1">
-                <a href="/Controller?action=show_doctor_page"><fmt:message key="header.doctor"/> </a>
-            </div>
+                <div class="col-1">
+                    <a href="/Controller?action=show_doctor_page"><fmt:message key="header.doctor"/> </a>
+                </div>
             </c:if>
 
             <c:if test="${user.role eq 'pharmacist'}">
-            <div class="col-2">
-                <a href="../../admin/index.jsp"><fmt:message key="header.admin"/> </a>
-            </div>
+                <div class="col-2">
+                    <a href="../../admin/index.jsp"><fmt:message key="header.admin"/> </a>
+                </div>
             </c:if>
             <div class="col-1 justify-content-center">
                 <c:if test="${empty user}">
                     <a href="../../login.jsp"><fmt:message key="header.signIn"/> </a>
                 </c:if>
                 <c:if test="${not empty user}">
-                    <a href="${pageContext.request.contextPath}/Controller?action=log_out"><fmt:message key="header.signOut"/> </a>
+                    <a href="${pageContext.request.contextPath}/Controller?action=log_out"><fmt:message
+                            key="header.signOut"/> </a>
                 </c:if>
             </div>
             <div class="col-2 justify-content-center">
