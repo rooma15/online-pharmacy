@@ -17,10 +17,16 @@ function searchToObject() {
 function cardNumberFormatting(){
     let cardNumberField = $(".card-payment-form input[name='cardNumber']");
     let str = cardNumberField.val().replace(/\s/g, '');
-    if(str.length % 4 === 0 && cardNumberField.val().length > 0){
+    if(str.length % 5 === 0 && cardNumberField.val().length > 0){
         cardNumberField.val(cardNumberField.val() + " ");
     }
 }
+
+function holderNameFormatting(){
+    let holderNameField = $(".card-payment-form input[name='name']");
+    holderNameField.val(holderNameField.val().toUpperCase());
+}
+
 
 
 $(document).ready(function () {

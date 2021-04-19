@@ -9,7 +9,7 @@ public enum CardPaymentMethod implements PaymentMethod {
     INSTANCE;
 
     private final String CARD_NUMBER_REGEX = "^[0-9]{16}$";
-    private final String NAME_REGEX = "^[a-z ]+$";
+    private final String NAME_REGEX = "^[A-Z ]+$";
 
     private boolean validCredentials(RequestContext req, String cardNumber, String name, int cvv){
         Enumeration<String> params = req.getParameterNames();
