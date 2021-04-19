@@ -39,7 +39,8 @@ public enum CommandManager {
     CHANGE_LOCALE(ChangeLocaleCommand.INSTANCE),
     FILTER(FilterCommand.INSTANCE),
     MAKE_ORDER(MakeOrderCommand.INSTANCE),
-    SHOW_ORDER_HISTORY(ShowOrderHistoryCommand.INSTANCE);
+    SHOW_ORDER_HISTORY(ShowOrderHistoryCommand.INSTANCE),
+    SHOW_PAYMENT_PAGE(ShowPaymentPageCommand.INSTANCE);
 
      private final Command command;
 

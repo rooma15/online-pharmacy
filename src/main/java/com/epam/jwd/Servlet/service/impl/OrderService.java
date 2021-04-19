@@ -2,12 +2,13 @@ package com.epam.jwd.Servlet.service.impl;
 
 import com.epam.jwd.Servlet.dao.AbstractDAO;
 import com.epam.jwd.Servlet.dao.impl.OrderDAO;
-import com.epam.jwd.Servlet.model.Order;
-import com.epam.jwd.Servlet.model.OrderDto;
+import com.epam.jwd.Servlet.model.*;
 import com.epam.jwd.Servlet.service.CommonService;
 
+import javax.servlet.http.HttpSession;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -79,8 +80,30 @@ public class OrderService implements CommonService<OrderDto> {
         }
     }
 
-    public boolean createOrder(Order order){
-        return orderDAO.create(order);
+    /**
+     * creates an order in orders history  and add it to database
+     * @param user user tht makes an order
+     * @param order {@link Order}
+     * @param cartItems list of items of order from cart
+     * @return true if order creation was successful, false otherwise
+     */
+    public boolean createOrder(User user, Order order, List<CartItemDto> cartItems){
+        OrderItemService orderItemService = new OrderItemService();
+        boolean isOrderCreated = orderDAO.create(order);
+        int orderId = getLastOrderId(user.getId());
+        orderId = orderId == 0 ? 1 : orderId;
+        for(CartItemDto cartItem : cartItems) {
+            orderItemService.create(new OrderItem(
+                    orderId,
+                    cartItem.getAmount(),
+                    cartItem.getPrice(),
+                    cartItem.getMedicineName(),
+                    cartItem.getMedicineDose(),
+                    cartItem.getMedicineConsistency(),
+                    cartItem.getMedicineId()
+            ));
+        }
+        return isOrderCreated;
     }
 
     public List<OrderDto> findByUserId(int id){

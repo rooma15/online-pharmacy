@@ -304,3 +304,31 @@ input[type="number"]{
     font-weight: bold;
     color: white;
 }
+
+.card-payment-form{
+    padding: 20px 35px 20px 25px;
+    border-radius: 10px;
+    background-color: #50be14;
+    color: white;
+    margin-top: 200px;
+}
+
+.card-payment-form input[name="cardNumber"]{
+    width: 300px;
+}
+
+.card-payment-form input[name="name"]{
+    width: 300px;
+}
+
+.card-payment-form input[name="cvv"]{
+    width: 50px;
+}
+
+.card-payment-form input{
+    margin-bottom: 25px;
+}
+
+.card-payment-form input[type="submit"]{
+    padding: 10px;
+}

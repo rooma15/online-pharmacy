@@ -14,6 +14,14 @@ function searchToObject() {
     return obj;
 }
 
+function cardNumberFormatting(){
+    let cardNumberField = $(".card-payment-form input[name='cardNumber']");
+    let str = cardNumberField.val().replace(/\s/g, '');
+    if(str.length % 4 === 0 && cardNumberField.val().length > 0){
+        cardNumberField.val(cardNumberField.val() + " ");
+    }
+}
+
 
 $(document).ready(function () {
 
@@ -87,5 +95,7 @@ $(document).ready(function () {
         }
         window.location.href = src;
     })
+
+
 });
 

@@ -34,7 +34,7 @@
         </div>
     </c:forEach>
     <c:if test="${not empty order_items}">
-        <a href="/Controller?action=make_order" class="order-items-button"><fmt:message key="cart.order"/></a>
+        <a href="/Controller?action=show_payment_page&method=card" class="order-items-button"><fmt:message key="cart.order.byCard"/></a>
     </c:if>
     <c:if test="${empty order_items}">
         <h1 class="text-center"><fmt:message key="index.noGoods"/> </h1>
