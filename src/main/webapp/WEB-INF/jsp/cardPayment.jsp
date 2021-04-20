@@ -23,7 +23,7 @@
                     <input type="hidden" value="card" name="method">
                     <label>
                         <span><fmt:message key="payment.cardNumber"/> </span><br>
-                        <input type="text" name="cardNumber" required minlength="19" maxlength="19">
+                        <input type="text" name="cardNumber" required minlength="16" maxlength="16">
                     </label>
                     <br>
                     <label>
