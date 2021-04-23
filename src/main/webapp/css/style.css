@@ -8,7 +8,11 @@ a, a:visited, a:active, a:hover {
 }
 
 .header a{
-    color: white !important;
+    color: white;
+}
+
+.header a:hover{
+    color: white;
 }
 
 .header{
@@ -18,6 +22,21 @@ a, a:visited, a:active, a:hover {
 
 .header-block{
     height: 100px;
+}
+
+
+.header-buttons{
+    font-weight: bold;
+    animation-duration: 1.5s;
+    padding: 10px;
+    border: 3px white solid;
+    border-radius: 5px;
+}
+
+.header-buttons:hover{
+    animation-duration: 1.5s;
+    background-color: white;
+    color: #50be14 !important;
 }
 
 .main-content{
@@ -293,7 +312,7 @@ input[type="number"]{
 }
 
 .order{
-    background-color: pink;
+    background-color: #375e27;
     padding: 20px 40px 20px 40px;
     border-radius: 10px;
     margin-bottom: 40px;
@@ -331,4 +350,18 @@ input[type="number"]{
 
 .card-payment-form input[type="submit"]{
     padding: 10px;
+}
+
+
+.error-alert, .error-alert-login{
+    padding: 20px;
+    width: 80%;
+    background-color: rgba(255, 0, 0, 0.5);
+    color: white;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.error-alert-login{
+    width: 100%;
 }

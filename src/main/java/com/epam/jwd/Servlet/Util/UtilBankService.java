@@ -1,6 +1,4 @@
 package com.epam.jwd.Servlet.Util;
-
-import com.epam.jwd.ConnectionPool.DBConnector;
 import com.epam.jwd.ConnectionPool.Impl.DBConnectionPool;
 
 

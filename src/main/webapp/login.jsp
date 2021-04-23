@@ -20,6 +20,15 @@
 <div class="container" style="text-align: center;">
     <h2><fmt:message key="login.log"/> </h2>
     <div class="row justify-content-center">
+        <div class="col-5">
+            <c:if test="${not empty error}">
+                <div class="error-alert-login" style="margin-bottom: -60px">
+                    <span><c:out value="${error}"></c:out></span>
+                </div>
+            </c:if>
+        </div>
+    </div>
+    <div class="row justify-content-center">
         <div class="col-5 login-content">
             <form class="form" action="${pageContext.request.contextPath}/Controller?action=login" method="post">
                 <label class="login-form-label"><fmt:message key="login.login"/></label><br>
@@ -28,7 +37,6 @@
                 <input class="login-input" type="password" name="password" minlength="8" required><br>
                 <input class="login-input login-button" type="submit" value="<fmt:message key="login.logInButton"/>"><br>
                 <a href="register.jsp" class="register-href"><fmt:message key="login.reg"/></a><br>
-                <p class="errors"><c:out value="${error}"></c:out></p>
             </form>
         </div>
     </div>

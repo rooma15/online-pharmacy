@@ -39,7 +39,9 @@
                 <c:if test="${prescription eq 'needed'}">
                     <div class="buy-button-medicine-page-disabled"><fmt:message key="medPage.recipeNeeded"/></div>
                     <c:if test="${empty user}">
-                        <span><fmt:message key="medPage.needToSignIn"/></span>
+                        <div class="error-alert">
+                            <span><fmt:message key="medPage.needToSignIn"/></span>
+                        </div>
                     </c:if>
                     <c:if test="${not empty user}">
                         <a href="/Controller?action=create_prescription&medicineId=${medicine.id}&login=${user.login}">
