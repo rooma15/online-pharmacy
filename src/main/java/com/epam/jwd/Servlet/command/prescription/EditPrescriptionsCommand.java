@@ -4,7 +4,7 @@ import com.epam.jwd.Servlet.command.Command;
 import com.epam.jwd.Servlet.command.RequestContext;
 import com.epam.jwd.Servlet.command.ResponseContext;
 import com.epam.jwd.Servlet.service.impl.PrescriptionService;
-import com.epam.jwd.Util;
+import com.epam.jwd.Servlet.Util.Util;
 
 public enum EditPrescriptionsCommand implements Command {
     INSTANCE;

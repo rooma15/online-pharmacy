@@ -3,7 +3,7 @@ package com.epam.jwd.Servlet.command.page;
 import com.epam.jwd.Servlet.command.Command;
 import com.epam.jwd.Servlet.command.RequestContext;
 import com.epam.jwd.Servlet.command.ResponseContext;
-import com.epam.jwd.Util;
+import com.epam.jwd.Servlet.Util.Util;
 
 public enum ShowPaymentPageCommand implements Command {
 

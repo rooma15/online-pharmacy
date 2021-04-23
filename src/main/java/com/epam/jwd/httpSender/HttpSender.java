@@ -8,6 +8,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.Duration;
 import java.util.Map;
 
 public class HttpSender {
@@ -24,7 +25,7 @@ public class HttpSender {
         this.httpRequest = httpRequest;
     }
 
-    public static class HttpRequestBuilder{
+    public static class HttpRequestBuilder implements HttpRequest.Builder {
         private final HttpRequest.Builder builder = HttpRequest.newBuilder();
 
         public HttpRequestBuilder uri(String uri){
@@ -46,6 +47,66 @@ public class HttpSender {
 
         public HttpRequest build(){
             return builder.build();
+        }
+
+        @Override
+        public HttpRequest.Builder uri(URI uri) {
+            return builder.uri(uri);
+        }
+
+        @Override
+        public HttpRequest.Builder expectContinue(boolean b) {
+            return builder.expectContinue(b);
+        }
+
+        @Override
+        public HttpRequest.Builder version(HttpClient.Version version) {
+            return builder.version(version);
+        }
+
+        @Override
+        public HttpRequest.Builder header(String s, String s1) {
+            return builder.header(s, s1);
+        }
+
+        @Override
+        public HttpRequest.Builder timeout(Duration duration) {
+            return builder.timeout(duration);
+        }
+
+        @Override
+        public HttpRequest.Builder setHeader(String s, String s1) {
+            return builder.setHeader(s, s1);
+        }
+
+        @Override
+        public HttpRequest.Builder GET() {
+            return builder.GET();
+        }
+
+        @Override
+        public HttpRequest.Builder POST(HttpRequest.BodyPublisher bodyPublisher) {
+            return builder.POST(bodyPublisher);
+        }
+
+        @Override
+        public HttpRequest.Builder PUT(HttpRequest.BodyPublisher bodyPublisher) {
+            return builder.PUT(bodyPublisher);
+        }
+
+        @Override
+        public HttpRequest.Builder DELETE() {
+            return builder.DELETE();
+        }
+
+        @Override
+        public HttpRequest.Builder method(String s, HttpRequest.BodyPublisher bodyPublisher) {
+            return builder.method(s, bodyPublisher);
+        }
+
+        @Override
+        public HttpRequest.Builder copy() {
+            return builder.copy();
         }
     }
 

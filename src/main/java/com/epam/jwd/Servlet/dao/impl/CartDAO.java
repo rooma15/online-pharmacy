@@ -1,13 +1,8 @@
 package com.epam.jwd.Servlet.dao.impl;
 
-import com.epam.jwd.ConnectionPool.Impl.DBConnectionPool;
 import com.epam.jwd.Servlet.dao.AbstractDAO;
 import com.epam.jwd.Servlet.model.CartItem;
-import com.epam.jwd.Servlet.model.User;
-import com.epam.jwd.Util;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;

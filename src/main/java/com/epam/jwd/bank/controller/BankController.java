@@ -1,5 +1,6 @@
 package com.epam.jwd.bank.controller;
 
+import com.epam.jwd.bank.service.BankService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -23,6 +24,10 @@ public class BankController extends HttpServlet {
         String requestBody = reader.readLine();
         Gson gson = new Gson();
         Type type = new TypeToken<Map<String, String>>(){}.getType();
-        Map<String, String> map = gson.fromJson(requestBody, type);
+        Map<String, String> credentialsMap = gson.fromJson(requestBody, type);
+        BankService bankService = new BankService();
+        if(!bankService.makePaymentTransaction(credentialsMap)){
+            resp.sendError(409);
+        }
     }
 }

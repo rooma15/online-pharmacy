@@ -3,7 +3,7 @@ package com.epam.jwd.ConnectionPool.Impl;
 import com.epam.jwd.ConnectionPool.ConnectionPool;
 import com.epam.jwd.ConnectionPool.DBConnector;
 import com.epam.jwd.ConnectionPool.ProxyConnection;
-import com.epam.jwd.Util;
+import com.epam.jwd.Servlet.Util.Util;
 
 import java.sql.Connection;
 import java.sql.SQLException;

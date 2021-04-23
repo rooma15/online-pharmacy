@@ -1,6 +1,6 @@
 package com.epam.jwd.ConnectionPool;
 
-import com.epam.jwd.Util;
+import com.epam.jwd.Servlet.Util.Util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -18,7 +18,6 @@ public abstract class DBConnector {
         String url = bundle.getString("db.url");
         String user = bundle.getString("db.user");
         String pass = bundle.getString("db.password");
-        Connection connection = DriverManager.getConnection(url, user, pass);
-        return connection;
+        return DriverManager.getConnection(url, user, pass);
     }
 }

@@ -6,7 +6,7 @@ import com.epam.jwd.Servlet.command.ResponseContext;
 import com.epam.jwd.Servlet.dao.AbstractDAO;
 import com.epam.jwd.Servlet.model.MedicineDto;
 import com.epam.jwd.Servlet.service.impl.MedicineService;
-import com.epam.jwd.Util;
+import com.epam.jwd.Servlet.Util.Util;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.Part;

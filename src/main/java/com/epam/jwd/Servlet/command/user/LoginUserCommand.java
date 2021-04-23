@@ -6,7 +6,7 @@ import com.epam.jwd.Servlet.command.ResponseContext;
 import com.epam.jwd.Servlet.model.UserDto;
 import com.epam.jwd.Servlet.service.impl.CartService;
 import com.epam.jwd.Servlet.service.impl.UserService;
-import com.epam.jwd.Util;
+import com.epam.jwd.Servlet.Util.Util;
 import org.apache.commons.text.StringEscapeUtils;
 
 import javax.servlet.http.HttpSession;
@@ -79,6 +79,10 @@ public enum LoginUserCommand implements Command {
         String password = req.getParameter("password");
         if("".equals(login) || "".equals(password) || login == null || password == null){
             req.setAttribute("error", locale.getString("regError.notAllFields"));
+            return LOGIN_ERROR_CONTEXT;
+        }
+
+        if(req.getSession().getAttribute("user") != null){
             return LOGIN_ERROR_CONTEXT;
         }
 

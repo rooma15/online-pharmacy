@@ -4,12 +4,10 @@ import com.epam.jwd.Servlet.command.Command;
 import com.epam.jwd.Servlet.command.RequestContext;
 import com.epam.jwd.Servlet.command.ResponseContext;
 import com.epam.jwd.Servlet.model.Prescription;
-import com.epam.jwd.Servlet.model.PrescriptionDto;
 import com.epam.jwd.Servlet.model.User;
 import com.epam.jwd.Servlet.service.impl.PrescriptionService;
 import com.epam.jwd.Servlet.service.impl.UserService;
-import com.epam.jwd.Util;
-import com.epam.jwd.tag.PaginationContent;
+import com.epam.jwd.Servlet.Util.Util;
 
 import java.util.List;
 import java.util.Optional;

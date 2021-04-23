@@ -8,7 +8,7 @@ import com.epam.jwd.Servlet.model.Prescription;
 import com.epam.jwd.Servlet.service.impl.CartService;
 import com.epam.jwd.Servlet.service.impl.MedicineService;
 import com.epam.jwd.Servlet.service.impl.PrescriptionService;
-import com.epam.jwd.Util;
+import com.epam.jwd.Servlet.Util.Util;
 
 import java.util.List;
 

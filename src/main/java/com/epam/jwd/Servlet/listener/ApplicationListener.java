@@ -2,7 +2,7 @@ package com.epam.jwd.Servlet.listener;
 
 import com.epam.jwd.ConnectionPool.ConnectionPool;
 import com.epam.jwd.ConnectionPool.Impl.DBConnectionPool;
-import com.epam.jwd.Util;
+import com.epam.jwd.Servlet.Util.Util;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;

@@ -3,8 +3,7 @@ package com.epam.jwd.Servlet.dao;
 import com.epam.jwd.ConnectionPool.ConnectionPool;
 import com.epam.jwd.ConnectionPool.Impl.DBConnectionPool;
 import com.epam.jwd.Servlet.model.Entity;
-import com.epam.jwd.Servlet.model.Prescription;
-import com.epam.jwd.Util;
+import com.epam.jwd.Servlet.Util.Util;
 
 import java.sql.*;
 import java.util.ArrayList;

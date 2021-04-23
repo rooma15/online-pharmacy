@@ -6,7 +6,7 @@ import com.epam.jwd.Servlet.model.User;
 import com.epam.jwd.Servlet.model.UserDto;
 import com.epam.jwd.Servlet.model.UserRole;
 import com.epam.jwd.Servlet.service.impl.UserService;
-import com.epam.jwd.Util;
+import com.epam.jwd.Servlet.Util.Util;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

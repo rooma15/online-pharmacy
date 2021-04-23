@@ -9,12 +9,11 @@ import com.epam.jwd.Servlet.service.PaymentService;
 import com.epam.jwd.Servlet.service.impl.CartService;
 import com.epam.jwd.Servlet.service.impl.OrderService;
 import com.epam.jwd.Servlet.service.impl.UserService;
-import com.epam.jwd.Util;
+import com.epam.jwd.Servlet.Util.Util;
 
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Optional;
 
 public enum MakeOrderCommand implements Command {
     INSTANCE;

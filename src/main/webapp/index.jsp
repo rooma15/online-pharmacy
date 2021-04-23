@@ -38,7 +38,7 @@
                         key="medicine.ointment"/><br><br>
                     <input type="checkbox" name="consistency" value="таблетки"> <fmt:message
                         key="medicine.pills"/><br><br>
-                    <input type="checkbox" name="consistency" value="капли"> <fmt:message key="medicine.drops"/><br><br>
+                    <input type="checkbox" name="consistency" value="капли"> <fmt:message key="medicine.drops"/>
                 </div>
                 <label class="filter-block-label"><fmt:message key="medicine.recipe"/> </label>
                 <div class="filter-block">

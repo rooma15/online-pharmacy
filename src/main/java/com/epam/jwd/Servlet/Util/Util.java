@@ -1,14 +1,18 @@
-package com.epam.jwd;
+package com.epam.jwd.Servlet.Util;
 
+import com.epam.jwd.ConnectionPool.Impl.DBConnectionPool;
 import com.epam.jwd.Servlet.command.ResponseContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.sql.*;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class Util {
     public static final Logger lOGGER = LogManager.getLogger();
+
+
     public static final ResponseContext ERROR_REQUEST_CONTEXT = new ResponseContext() {
         @Override
         public String getPage() {
@@ -75,8 +79,8 @@ public class Util {
         }
     };
 
-    public static ResourceBundle getLocaleBundle(String loc){
-        String [] localeParts = loc.split("_");
+    public static ResourceBundle getLocaleBundle(String loc) {
+        String[] localeParts = loc.split("_");
         String language = localeParts[0];
         String country = localeParts[1];
         Locale locale = new Locale(language, country);

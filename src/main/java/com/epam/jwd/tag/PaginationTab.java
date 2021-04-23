@@ -1,6 +1,6 @@
 package com.epam.jwd.tag;
 import com.epam.jwd.Servlet.model.MedicineDto;
-import com.epam.jwd.Util;
+import com.epam.jwd.Servlet.Util.Util;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;

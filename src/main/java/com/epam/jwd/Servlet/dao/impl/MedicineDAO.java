@@ -2,7 +2,6 @@ package com.epam.jwd.Servlet.dao.impl;
 
 import com.epam.jwd.Servlet.dao.AbstractDAO;
 import com.epam.jwd.Servlet.model.Medicine;
-import com.epam.jwd.Util;
 
 import java.sql.*;
 import java.util.List;

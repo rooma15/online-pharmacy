@@ -10,7 +10,7 @@ import com.epam.jwd.Servlet.service.impl.CartService;
 import com.epam.jwd.Servlet.service.impl.MedicineService;
 import com.epam.jwd.Servlet.service.impl.PrescriptionService;
 import com.epam.jwd.Servlet.service.impl.UserService;
-import com.epam.jwd.Util;
+import com.epam.jwd.Servlet.Util.Util;
 import com.google.gson.Gson;
 
 

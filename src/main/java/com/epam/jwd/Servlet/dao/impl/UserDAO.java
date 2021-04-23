@@ -2,9 +2,6 @@ package com.epam.jwd.Servlet.dao.impl;
 
 import com.epam.jwd.Servlet.dao.AbstractDAO;
 import com.epam.jwd.Servlet.model.User;
-import com.epam.jwd.Servlet.model.UserRole;
-import com.epam.jwd.Util;
-import org.apache.commons.text.StringEscapeUtils;
 
 import java.sql.*;
 import java.util.List;
@@ -26,6 +23,7 @@ public class UserDAO extends AbstractDAO<User> {
             return Optional.empty();
         }
     };
+
     @Override
     public List<Optional<User>> findAll() {
         return super.findAll(GET_USERS, adder);
@@ -49,7 +47,7 @@ public class UserDAO extends AbstractDAO<User> {
     }
 
     public Optional<User> findByLogin(String login){
-        List<Optional<User>> items =AbstractDAO.
+        List<Optional<User>> items = AbstractDAO.
                 <User>findByCriteria(GET_USER_BY_LOGIN, "s", adder, login);
         if(items.isEmpty()){
             return Optional.empty();

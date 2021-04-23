@@ -1,15 +1,16 @@
 package com.epam.jwd.Servlet.paymentMethodStrategy.impl;
 
+import com.epam.jwd.Servlet.Util.UtilBankService;
 import com.epam.jwd.Servlet.command.RequestContext;
 import com.epam.jwd.Servlet.paymentMethodStrategy.PaymentMethod;
-import com.epam.jwd.Util;
+import com.epam.jwd.Servlet.Util.Util;
 import com.epam.jwd.exception.EmptyRequestException;
 import com.epam.jwd.httpSender.HttpSender;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.io.IOException;
-import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -59,10 +60,16 @@ public enum CardPaymentMethod implements PaymentMethod {
         }
 
         if(validCredentials(req, cardNumber, name, cvv)){
+            UtilBankService utilBankService = new UtilBankService();
+            if(!utilBankService.makeTransaction(price)){
+                return false;
+            };
+
             Map<String, String> params = new HashMap<>();
             params.put("cardNumber", cardNumber);
             params.put("name", name);
             params.put("cvv", String.valueOf(cvv));
+            params.put("change", String.valueOf(price));
             HttpSender httpSender = new HttpSender();
             try {
                 httpSender.setHttpRequest(
@@ -78,9 +85,14 @@ public enum CardPaymentMethod implements PaymentMethod {
             }
             try {
                 HttpResponse<String> httpResponse = httpSender.send();
-                System.out.println(httpResponse.statusCode());
-                return true;
-            }catch (IOException | InterruptedException | EmptyRequestException e){
+                if(httpResponse.statusCode() == 200){
+                    utilBankService.commit();
+                    return true;
+                }else {
+                    utilBankService.rollBack();
+                    return false;
+                }
+            }catch (SQLException | IOException | InterruptedException | EmptyRequestException e){
                 Util.lOGGER.error(e.getMessage());
                 return false;
             }

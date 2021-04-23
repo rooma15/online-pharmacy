@@ -4,7 +4,7 @@ import com.epam.jwd.ConnectionPool.ConnectionPool;
 import com.epam.jwd.ConnectionPool.Impl.DBConnectionPool;
 import com.epam.jwd.Servlet.model.MedicineDto;
 import com.epam.jwd.Servlet.service.impl.MedicineService;
-import com.epam.jwd.Util;
+import com.epam.jwd.Servlet.Util.Util;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

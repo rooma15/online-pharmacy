@@ -1,7 +1,7 @@
 package com.epam.jwd.ConnectionPool;
 
 import com.epam.jwd.ConnectionPool.Impl.DBConnectionPool;
-import com.epam.jwd.Util;
+import com.epam.jwd.Servlet.Util.Util;
 
 import java.sql.*;
 import java.util.Map;
