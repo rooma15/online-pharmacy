@@ -23,7 +23,7 @@
                 <a href="/Controller?action=delete_order_item&id=${items.id}" class="delete-order-item-button"><fmt:message key="cart.delete"/> </a>
             </div>
             <div class="col-6">
-                <h3>${items.medicineName}</h3><br>
+                <a href="/Controller?action=show_medicine_page&id=${items.medicineId}"><h3>${items.medicineName}</h3></a><br>
                     ${items.medicineDose} <fmt:message key="medPage.dose"/> <br>
                     ${items.medicineConsistency}<br>
             </div>

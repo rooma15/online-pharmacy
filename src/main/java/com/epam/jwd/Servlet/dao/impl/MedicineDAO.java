@@ -12,9 +12,9 @@ public class MedicineDAO extends AbstractDAO<Medicine> {
 
 
     private final String GET_MEDICINES = "select * from pharmacy.Medicines " +
-            "join pharmacy.Images on pharmacy.Medicines.name=pharmacy.Images.medicine_name";
+            "join pharmacy.Images on pharmacy.Medicines.id=pharmacy.Images.medicine_id";
     private final String GET_MEDICINE_BY_ID = "select * from pharmacy.Medicines" +
-            " join pharmacy.Images on pharmacy.Medicines.name=pharmacy.Images.medicine_name where id=?";
+            " join pharmacy.Images on pharmacy.Medicines.id=pharmacy.Images.medicine_id where id=?";
     private final String DELETE_MEDICINE_BY_ID = "delete from pharmacy.Medicines where id=?";
     private final String CREATE_MEDICINE = "insert into pharmacy.Medicines values(null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private final String UPDATE_MEDICINE = "update pharmacy.Medicines set name=?, " +

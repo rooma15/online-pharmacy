@@ -33,7 +33,7 @@ public class UtilBankService {
             } catch (SQLException e) {
                 Util.lOGGER.error(e.getStackTrace());
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             Util.lOGGER.error(e.getStackTrace());
         }
         return false;
@@ -41,12 +41,14 @@ public class UtilBankService {
 
     public void commit() throws SQLException {
         dbConnection.commit();
+        dbConnection.setAutoCommit(true);
         dbConnection.close();
     }
 
     public void rollBack() throws SQLException {
         if(savepoint != null){
             dbConnection.rollback(savepoint);
+            dbConnection.setAutoCommit(true);
             dbConnection.close();
         }
     }

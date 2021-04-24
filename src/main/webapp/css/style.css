@@ -237,6 +237,10 @@ input[type="number"]{
     border-radius: 10px;
 }
 
+.order-item a{
+    color: white !important;
+}
+
 .delete-order-item-button{
     padding: 10px 15px 10px 15px;
     border-radius: 7px;

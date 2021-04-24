@@ -147,8 +147,7 @@ public abstract class AbstractDAO<T extends Entity> {
      * @return {@link List} of {@link Optional} of template value
      */
     public static <E extends Entity> List<Optional<E>> findByCriteria(String st, String paramString, Function<ResultSet,
-            Optional<E>> entityAdder,
-                                                                      Object... params) {
+            Optional<E>> entityAdder, Object... params) {
         List<Optional<E>> items = new ArrayList<>();
         try (Connection dbConnection = DBConnectionPool.getInstance().getConnection()) {
             try (PreparedStatement statement = dbConnection.prepareStatement(st)) {
@@ -186,6 +185,27 @@ public abstract class AbstractDAO<T extends Entity> {
             Util.lOGGER.error(e.getStackTrace());
         }
         return items;
+    }
+
+    public static int getLastInsertedId(){
+        String st = "SELECT LAST_INSERT_ID()";
+        int id = 0;
+        try (Connection dbConnection = DBConnectionPool.getInstance().getConnection()) {
+            try (PreparedStatement statement = dbConnection.prepareStatement(st)) {
+                try (ResultSet result = statement.executeQuery()) {
+                    while(result.next()) {
+                        id = result.getInt(1);
+                    }
+                } catch (SQLException e) {
+                    Util.lOGGER.error(e.getStackTrace());
+                }
+            } catch (SQLException e) {
+                Util.lOGGER.error(e.getStackTrace());
+            }
+        } catch (InterruptedException | SQLException e) {
+            Util.lOGGER.error(e.getStackTrace());
+        }
+        return id;
     }
 
 }

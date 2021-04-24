@@ -129,7 +129,6 @@ public enum AddMedicineCommand implements Command {
                     return ERROR_ADD_MEDICINE_CONTEXT;
                 }
             }
-            AbstractDAO.updateByCriteria(INSERT_IMAGE_PATH, "ss", name, fileName);
             medicineDto = new MedicineDto(name,
                     dose,
                     isPrescriptionDrug,
@@ -147,6 +146,10 @@ public enum AddMedicineCommand implements Command {
             return ERROR_ADD_MEDICINE_CONTEXT;
         }
         boolean status = service.create(medicineDto);
+        if(status){
+            int id = AbstractDAO.getLastInsertedId();
+            AbstractDAO.updateByCriteria(INSERT_IMAGE_PATH, "is", id, fileName);
+        }
         return SUCCESS_ADD_MEDICINE_CONTEXT;
     }
 
