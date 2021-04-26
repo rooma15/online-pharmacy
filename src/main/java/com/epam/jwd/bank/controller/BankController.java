@@ -29,5 +29,6 @@ public class BankController extends HttpServlet {
         if(!bankService.makePaymentTransaction(credentialsMap)){
             resp.sendError(409);
         }
+        stream.close();
     }
 }

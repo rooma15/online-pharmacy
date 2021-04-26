@@ -3,14 +3,12 @@ package com.epam.jwd.Servlet.command.user;
 import com.epam.jwd.Servlet.command.Command;
 import com.epam.jwd.Servlet.command.RequestContext;
 import com.epam.jwd.Servlet.command.ResponseContext;
-import com.epam.jwd.Servlet.model.Prescription;
-import com.epam.jwd.Servlet.model.User;
-import com.epam.jwd.Servlet.service.impl.PrescriptionService;
-import com.epam.jwd.Servlet.service.impl.UserService;
+import com.epam.jwd.Servlet.model.*;
+import com.epam.jwd.Servlet.service.impl.*;
 import com.epam.jwd.Servlet.Util.Util;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 public enum DeleteUserCommand implements Command {
@@ -57,9 +55,12 @@ public enum DeleteUserCommand implements Command {
             PrescriptionService prescriptionService = new PrescriptionService();
             List<Prescription> userPrescriptions = prescriptionService.findByUserId(user.get().getId());
             for(Prescription userPrescription : userPrescriptions) {
-                System.out.println(userPrescription.getId());
                 prescriptionService.deleteById(userPrescription.getId());
             }
+            CartService cartService = new CartService(req);
+            cartService.clearCart(user.get().getId());
+            OrderService orderService = new OrderService();
+            orderService.deleteFullOrders(user.get().getId());
             boolean status = service.deleteById(user.get().getId());
             return DELETE_USER_CONTEXT;
         }else{

@@ -114,11 +114,32 @@ public class OrderService implements CommonService<OrderDto> {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * calculates full price of all order items
+     * @param cartItems items in the cart
+     * @return full price of order
+     */
     public static double calculateOrderPrice(List<CartItemDto> cartItems){
         double orderPrice = 0;
         for(CartItemDto cartItem : cartItems) {
             orderPrice += cartItem.getPrice();
         }
         return orderPrice;
+    }
+
+    /**
+     * delete all orders of concrete user from database with all order items
+     * @param id user id
+     */
+    public void deleteFullOrders(int id){
+        List<OrderDto> orders = findByUserId(id);
+        OrderItemService orderItemService = new OrderItemService();
+        for(OrderDto order : orders) {
+            List<OrderItemDto> orderItems = orderItemService.findByOrderId(order.getId());
+            for(OrderItemDto orderItem : orderItems) {
+                orderItemService.deleteById(orderItem.getId());
+            }
+            deleteById(order.getId());
+        }
     }
 }

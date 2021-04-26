@@ -19,7 +19,7 @@ public abstract class AbstractDAO<T extends Entity> {
 
 
     /**
-     * find all entites in database
+     * find all entities in database
      *
      * @param st          statement to be executed
      * @param entityAdder functional interface, used to create entity

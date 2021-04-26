@@ -61,7 +61,7 @@ public class CartService implements CommonService<CartItemDto> {
      * @param userId user id who added item to cart
      * @return true if item added successfully, false otherwise
      */
-    public boolean create(CartItemDto item, int userId) {
+    public boolean  create(CartItemDto item, int userId) {
         double price = item.getPrice();
         int amount = item.getAmount();
         return cartDAO.create(new CartItem(item.getMedicineId(), userId, amount, price));
@@ -326,7 +326,7 @@ public class CartService implements CommonService<CartItemDto> {
 
     /**
      * clean user cart
-     * @return true if everything was successfull, false otherwise
+     * @return true if everything was successful, false otherwise
      */
     public boolean clearCart(){
         HttpSession session = req.getSession();
@@ -336,6 +336,10 @@ public class CartService implements CommonService<CartItemDto> {
         User user = userService.findByLogin(userDto.getLogin()).get();
         return AbstractDAO.updateByCriteria(st, "i", user.getId());
 
+    }
+    public boolean clearCart(int id){
+        String st = "delete from pharmacy.Cart where user_id=? and id>0";
+        return AbstractDAO.updateByCriteria(st, "i", id);
     }
 
 }
