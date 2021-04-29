@@ -15,10 +15,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -46,10 +48,10 @@ public class Controller extends HttpServlet {
         } else {
             final Command businessCommand = Command.of(commandName);
             final ResponseContext result = businessCommand.execute(ApplicationRequestContext.getInstance(req));
-            ;
             if(result.getErrorCode() != null) {
                 resp.sendError(Integer.parseInt(result.getErrorCode()));
             }
+            HttpSession session = req.getSession();
             if(result.isAjax()) {
                 resp.setContentType("application/json");
                 resp.setCharacterEncoding("UTF-8");

@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 /**
  * service for handling with order items
  */
+
 public class CartService implements CommonService<CartItemDto> {
 
     private final CartDAO cartDAO;
@@ -187,6 +188,7 @@ public class CartService implements CommonService<CartItemDto> {
      * @param amount amount growth of medicines in order
      * @return true if increasing was successful, false otherwise
      */
+
     private boolean increaseAmountOfOrder(CartItemDto cartItemDto, int amount) {
         HttpSession session = req.getSession();
         int orderId = cartItemDto.getId();

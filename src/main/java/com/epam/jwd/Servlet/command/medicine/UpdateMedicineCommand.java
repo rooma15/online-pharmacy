@@ -107,6 +107,7 @@ public enum UpdateMedicineCommand implements Command {
         }catch (java.io.IOException | javax.servlet.ServletException e){
             Util.lOGGER.error(e.getMessage());
         }
+
         String name = req.getParameter("name");
         boolean isPrescriptionDrug = req.getParameter("prescriptionDrug") != null;
         String description = req.getParameter("description");

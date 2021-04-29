@@ -7,6 +7,8 @@ import com.epam.jwd.Servlet.Util.Util;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Stack;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -15,7 +17,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class DBConnectionPool implements ConnectionPool {
 
 
-    private final Stack<ProxyConnection> connections;
+    private final Deque<ProxyConnection> connections;
     private final int DEFAULT_CAPACITY = 10;
     private int amountOfConnections;
     private static DBConnectionPool connectionPool;
@@ -24,12 +26,15 @@ public class DBConnectionPool implements ConnectionPool {
     Condition notEmpty;
 
 
+
     private DBConnectionPool() {
-        connections = new Stack<>();
+        connections = new ArrayDeque<>();
         lock = new ReentrantLock();
         notEmpty = lock.newCondition();
         amountOfConnections = DEFAULT_CAPACITY;
     }
+
+
 
     public void init() throws SQLException {
         for(int i = 0; i < DEFAULT_CAPACITY; i++){
@@ -39,6 +44,8 @@ public class DBConnectionPool implements ConnectionPool {
         }
 
     }
+
+
 
     public static DBConnectionPool getInstance() {
         Lock lock = new ReentrantLock();
@@ -53,6 +60,8 @@ public class DBConnectionPool implements ConnectionPool {
 
         return connectionPool;
     }
+
+
 
     @Override
     public Connection getConnection() throws InterruptedException {
@@ -90,6 +99,7 @@ public class DBConnectionPool implements ConnectionPool {
         }
     }
 
+
     public void destroy(){
         Util.lOGGER.info("start destroying all connections");
         try {
@@ -98,5 +108,4 @@ public class DBConnectionPool implements ConnectionPool {
             Util.lOGGER.error(e.getMessage());
         }
     }
-
 }
